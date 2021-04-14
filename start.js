@@ -12,4 +12,4 @@ function exec_handler(error, stdout, stderr){
     console.log(`stdout: ${stdout}`);
 }
 
-exec("cd sigmar_codex && neu run", exec_handler);
+exec("cd verena_codex && neu run", exec_handler);

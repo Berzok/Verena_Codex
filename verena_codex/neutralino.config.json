@@ -9,7 +9,7 @@
   },
   "modes": {
     "window": {
-      "title": "sigmar_codex",
+      "title": "verena_codex",
       "width": 800,
       "height": 500,
       "fullScreen": false,
@@ -23,7 +23,7 @@
     "cloud": {}
   },
   "cli": {
-    "binaryName": "sigmar_codex",
+    "binaryName": "verena_codex",
     "resourcesPath": "/resources/",
     "clientLibrary": "/resources/js/neutralino.js"
   }

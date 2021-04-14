@@ -1,11 +1,11 @@
 {
-  "name": "sigmar_codex",
+  "name": "verena_codex",
   "version": "0.1.0",
   "description": "Yap",
   "main": "main.js",
-  "scripts" : {
+  "scripts": {
     "build": "node build.js",
-    "start" : "node start.js"
+    "start": "node start.js"
   },
   "dependencies": {
     "@neutralinojs/neu": "^3.0.2"
