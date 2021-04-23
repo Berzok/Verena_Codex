@@ -1,5 +1,6 @@
 const { exec } = require("child_process");
 
+
 function exec_handler(error, stdout, stderr){
     if (error) {
         console.log(`error: ${error.message}`);
@@ -12,4 +13,4 @@ function exec_handler(error, stdout, stderr){
     console.log(`stdout: ${stdout}`);
 }
 
-exec("cd verena_codex && neu run", exec_handler);
+exec("neu run", exec_handler);

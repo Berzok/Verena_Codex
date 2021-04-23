@@ -1,21 +1,21 @@
 {
   "applicationId": "js.neutralino.sample",
-  "port": 0,
+  "port": 61046,
   "defaultMode": "window",
-  "url": "/resources/",
+  "url": "/web/",
   "nativeBlockList": [],
   "globalVariables": {
     "TEST": "Test Value"
   },
   "modes": {
     "window": {
-      "title": "verena_codex",
+      "title": "codex",
       "width": 800,
       "height": 500,
       "fullScreen": false,
       "alwaysOnTop": false,
-      "icon": "/resources/icons/appIcon.png",
-      "enableInspector": false,
+      "icon": "/web/icons/appIcon.png",
+      "enableInspector": true,
       "borderless": false,
       "maximize": false
     },
@@ -23,8 +23,8 @@
     "cloud": {}
   },
   "cli": {
-    "binaryName": "verena_codex",
-    "resourcesPath": "/resources/",
-    "clientLibrary": "/resources/js/neutralino.js"
+    "binaryName": "codex",
+    "resourcesPath": "/web/",
+    "clientLibrary": "/web/js/neutralino.js"
   }
 }

@@ -8,6 +8,6 @@
     "start": "node start.js"
   },
   "dependencies": {
-    "@neutralinojs/neu": "^3.0.2"
+    "@neutralinojs/neu": "^3.0.3"
   }
 }
