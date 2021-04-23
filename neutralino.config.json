@@ -1,7 +1,7 @@
 {
   "applicationId": "js.neutralino.sample",
   "port": 61046,
-  "defaultMode": "window",
+  "defaultMode": "browser",
   "url": "/web/",
   "nativeBlockList": [],
   "globalVariables": {
@@ -19,7 +19,12 @@
       "borderless": false,
       "maximize": false
     },
-    "browser": {},
+    "browser": {
+      "title": "codex",
+      "fullScreen": false,
+      "icon": "/web/icons/appIcon.png",
+      "enableInspector": true
+    },
     "cloud": {}
   },
   "cli": {

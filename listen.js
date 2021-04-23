@@ -1,6 +1,9 @@
 const { exec } = require("child_process");
 
 function exec_handler(error, stdout, stderr){
+    while(true){
+
+    }
     if (error) {
         console.log(`error: ${error.message}`);
         return;
@@ -12,4 +15,4 @@ function exec_handler(error, stdout, stderr){
     console.log(`stdout: ${stdout}`);
 }
 
-exec("neu build --release", exec_handler);
+exec("neu listen", exec_handler);
