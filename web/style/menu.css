@@ -1,4 +1,5 @@
 #menu{
-    background-color: darkslateblue;
+    background-color: #80003A;
     height: 100vh;
+    border: 3px double #FADE55;
 }

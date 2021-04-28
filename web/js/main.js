@@ -1,5 +1,6 @@
 $(function() {
 
+    //Neutralino side
     window.myApp = {
         showInfo: () => {
             document.getElementById('info').innerHTML = NL_APPID + " is running on port " +
@@ -15,9 +16,17 @@ $(function() {
     Neutralino.init();
     $('#bouton').on('click', function () {
         window.myApp.openDocs();
-    })
+    });
+
+    try{
+        window.myApp.showInfo();
+    } catch(e){
+        console.dir(e);
+    }
+
     $('#info').text('oui bonjour');
 
-    window.myApp.showInfo();
+    //$('#page_title').height($('#login_container').height());
+
 
 })

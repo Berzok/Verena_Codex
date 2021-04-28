@@ -10,7 +10,6 @@ app.use('/', express.static('web'));
 
 // A sample route
 app.get('/', function(req, res) {
-    console.dir(req);
     res.sendFile(req.params.name, {
         root: path.join(__dirname, 'web'),
         dotfiles: 'deny',
@@ -21,8 +20,8 @@ app.get('/', function(req, res) {
     });
 });
 
-app.get('/:filename', function(req, res) {
-    console.dir(req);
+app.get('/*/:filename', function(req, res) {
+    return;
     res.sendFile(req.params.name, {
         root: path.join(__dirname, 'web'),
         dotfiles: 'deny',

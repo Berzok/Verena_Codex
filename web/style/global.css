@@ -1,12 +1,13 @@
 
 body{
     min-height: 100vh;
-    background: linear-gradient(to right, #599fd9, #c2e59c);
+    background: linear-gradient(to right, #80405d, #63426D, #404580, #535276, #406580);
 }
 
-#page_content {
-    text-align: center;
+a{
+    color: royalblue;
 }
+
 
 #page_content h1{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
