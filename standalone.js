@@ -20,6 +20,19 @@ app.get('/', function(req, res) {
     });
 });
 
+
+app.get('/:filename', function(req, res) {
+    //console.dir(req.params);
+    res.sendFile(req.params.filename+'.html', {
+        root: path.join(__dirname, './web'),
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }
+    });
+});
+
 app.get('/*/:filename', function(req, res) {
     return;
     res.sendFile(req.params.name, {

@@ -2,6 +2,6 @@
 //const $ = jQuery;
 //import { jQuery } from "jquery/dist/jquery";
 
-$(document).ready(function(){
+$(function() {
     $("#menu").load("menu.html");
 });
