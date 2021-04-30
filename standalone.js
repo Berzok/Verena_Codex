@@ -1,49 +1,22 @@
 // app.js
 const express = require('express');
 const path = require('path');
+var webRouter = require('./routes/web')();
 
 // Create Express app
 const app = express();
 const port = 61046;
 
-app.use('/', express.static('web'));
+
+app.use('/js', express.static('web/js'));
+app.use('/style', express.static('web/style'));
+
+
+
+app.use('/web', webRouter);
 
 // A sample route
-app.get('/', function(req, res) {
-    res.sendFile(req.params.name, {
-        root: path.join(__dirname, 'web'),
-        dotfiles: 'deny',
-        headers: {
-            'x-timestamp': Date.now(),
-            'x-sent': true
-        }
-    });
-});
 
-
-app.get('/:filename', function(req, res) {
-    //console.dir(req.params);
-    res.sendFile(req.params.filename+'.html', {
-        root: path.join(__dirname, './web'),
-        dotfiles: 'deny',
-        headers: {
-            'x-timestamp': Date.now(),
-            'x-sent': true
-        }
-    });
-});
-
-app.get('/*/:filename', function(req, res) {
-    return;
-    res.sendFile(req.params.name, {
-        root: path.join(__dirname, 'web'),
-        dotfiles: 'deny',
-        headers: {
-            'x-timestamp': Date.now(),
-            'x-sent': true
-        }
-    });
-});
 
 
 // Start the Express server

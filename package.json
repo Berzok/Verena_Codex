@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@neutralinojs/neu": "^3.0.3",
+    "better-sqlite3": "^7.1.5",
     "express": "^4.17.1"
   }
 }

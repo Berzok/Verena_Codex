@@ -3,5 +3,6 @@
 //import { jQuery } from "jquery/dist/jquery";
 
 $(function() {
-    $("#menu").load("menu.html");
+    $('head').load('/web/imports');
+    $("#menu").load('/web/menu');
 });
