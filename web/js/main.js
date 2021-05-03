@@ -21,7 +21,7 @@ $(function() {
     try{
         window.myApp.showInfo();
     } catch(e){
-        console.dir(e);
+        //console.dir(e);
     }
 
     $('#info').text('oui bonjour');

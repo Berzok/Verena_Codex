@@ -1,22 +1,7 @@
 var express = require('express');
-var fs = require('fs');
 var router = express.Router();
 
 module.exports = () => {
-
-    let render_data = {};
-    fs.readFile('./web/imports.html', 'utf8', function(err, data){
-        if(err){
-            console.log(err);
-        }
-        render_data.head = data;
-    });
-    fs.readFile('./web/menu.html', 'utf8', function(err, data){
-        if(err){
-            console.log(err);
-        }
-        render_data.sidemenu = data;
-    });
 
     router.use(function timeLog (req, res, next) {
         //console.dir(req.url);
@@ -24,8 +9,7 @@ module.exports = () => {
     });
 
 
-
-    router.get('/js/:filename', function(req, res) {
+    router.post('/talent/getTalents', function(req, res) {
         res.sendFile(req.params.filename, {
             root: './web/js',
             dotfiles: 'deny',
@@ -36,36 +20,7 @@ module.exports = () => {
         });
     });
 
-    router.get('/style/:filename', function(req, res) {
-        res.sendFile(req.params.filename, {
-            root: './web/style',
-            dotfiles: 'deny',
-            headers: {
-                'x-timestamp': Date.now(),
-                'x-sent': true
-            }
-        });
-    });
-    router.get('/img/:filename', function(req, res) {
-        res.sendFile(req.params.filename, {
-            root: './web/img',
-            dotfiles: 'deny',
-            headers: {
-                'x-timestamp': Date.now(),
-                'x-sent': true
-            }
-        });
-    });
-    router.get('/icons/:filename', function(req, res) {
-        res.sendFile(req.params.filename, {
-            root: './web/icons',
-            dotfiles: 'deny',
-            headers: {
-                'x-timestamp': Date.now(),
-                'x-sent': true
-            }
-        });
-    });
+
 
     router.get('/', function(req, res, next) {
         req.params.filename = 'index';

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
     <title>Veritas Project</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/utils.js" async></script>
+    {{it.head | safe}}
+
 </head>
 
 <body>
 <div class="container-fluid px-0">
     <div class="d-flex flex-row">
-        <div id="menu"></div>
+        <div id="menu">
+            {{it.sidemenu| safe }}
+        </div>
         <div id="page_content" class="d-flex flex-fill flex-column text-center mt-3 flex-grow-1">
 
             <h1 class="fw-bolder">Accueil</h1>

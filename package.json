@@ -1,6 +1,6 @@
 {
   "name": "verena_codex",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Yap",
   "main": "main.js",
   "scripts": {
@@ -12,6 +12,9 @@
   "dependencies": {
     "@neutralinojs/neu": "^3.0.3",
     "better-sqlite3": "^7.1.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "sequelize": "^6.6.2",
+    "sequelize-auto": "^0.8.2",
+    "squirrelly": "^8.0.8"
   }
 }

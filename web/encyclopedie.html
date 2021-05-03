@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
     <title>Veritas Project</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/utils.js" async></script>
+    {{it.head | safe}}
 
     <script src="https://cdn.datatables.net/v/dt/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/fc-3.3.2/fh-3.1.8/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.3/datatables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
@@ -16,7 +14,9 @@
 <body>
 <div class="container-fluid px-0">
     <div class="d-flex flex-row">
-        <div id="menu"></div>
+        <div id="menu">
+            {{it.sidemenu | safe }}
+        </div>
         <div id="page_content" class="d-flex flex-fill flex-column text-center mt-3 flex-grow-1">
 
             <h1 class="fw-bolder">Base de connaissances</h1>
@@ -31,10 +31,21 @@
                         <button id="nav-creatures-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-creatures" type="button" role="tab" aria-controls="nav-creatures" aria-selected="false">Créatures</button>
                     </div>
                 </nav>
+
                 <div id="myTabContent" class="tab-content">
-                    <div id="nav-skills" class="tab-pane fade show active" role="tabpanel" aria-labelledby="skills-tab">Parcourir</div>
-                    <div id="nav-talents" class="tab-pane fade" role="tabpanel" aria-labelledby="talents-tab">...</div>
-                    <div id="nav-creatures" class="tab-pane fade" role="tabpanel" aria-labelledby="creatures-tab">...</div>
+
+                    <div id="nav-skills" class="tab-pane fade show active" role="tabpanel" aria-labelledby="skills-tab">
+                        Parcourir
+                    </div>
+
+                    <div id="nav-talents" class="tab-pane fade" role="tabpanel" aria-labelledby="talents-tab">
+                        <table id="table_talent"></table>
+                    </div>
+
+                    <div id="nav-creatures" class="tab-pane fade" role="tabpanel" aria-labelledby="creatures-tab">
+                        ...
+                    </div>
+
                 </div>
 
             </div>
