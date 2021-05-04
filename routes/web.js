@@ -74,17 +74,6 @@ module.exports = () => {
             head: render_data.head,
             sidemenu: render_data.sidemenu
         });
-
-        /*
-        res.sendFile('index.html', {
-            root: './web',
-            dotfiles: 'deny',
-            headers: {
-                'x-timestamp': Date.now(),
-                'x-sent': true
-            }
-        });
-        */
     });
 
     router.get('/:filename', function(req, res) {

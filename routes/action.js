@@ -6,6 +6,9 @@ const models = require('./../standalone')();
 
 module.exports = () => {
 
+    router.use(express.json());
+    router.use(express.urlencoded({ extended: true}));
+
     router.use(function timeLog (req, res, next) {
         //console.dir(req.url);
         next();
@@ -13,20 +16,16 @@ module.exports = () => {
 
 
     router.post('/getTalents', function(req, res) {
-        console.dir(models);
-        let talents = models.Talent.getAll();
-        res.send(talents);
-
-        /*
-        res.sendFile(req.params.filename, {
-            root: './web/js',
-            dotfiles: 'deny',
-            headers: {
-                'x-timestamp': Date.now(),
-                'x-sent': true
+        models.Talent.getAll().then((response) => {
+            if(response){
+                res.send(response);
             }
         });
-        */
+    });
+
+    router.post('/createTalent', function(req, res) {
+        let newTalent = models.Talent.createTalent(req.body);
+        res.send(newTalent);
     });
 
 

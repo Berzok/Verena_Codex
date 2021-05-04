@@ -13,8 +13,10 @@
     "@neutralinojs/neu": "^3.0.3",
     "better-sqlite3": "^7.1.5",
     "express": "^4.17.1",
+    "jquery": "^3.6.0",
     "sequelize": "^6.6.2",
     "sequelize-auto": "^0.8.2",
+    "sqlite3": "^5.0.2",
     "squirrelly": "^8.0.8"
   }
 }

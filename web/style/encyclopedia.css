@@ -1,3 +1,6 @@
-#myTabContent{
-
+#tab_content{
+    background-color: rgba(132, 108, 68, 0.58);
+}
+#talent_description{
+    resize: vertical;
 }

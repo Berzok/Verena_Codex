@@ -7,19 +7,47 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             allowNull: true,
             primaryKey: true,
-            unique: true
+            unique: true,
+            id_talent(_value = null){
+                if(_value == null){
+                    return this.getDataValue(id_talent);
+                } else{
+                    this.setDataValue(_value);
+                }
+            }
         },
         nom: {
             type: "TEXT(140)",
-            allowNull: true
+            allowNull: true,
+            nom(_value = null){
+                if(_value == null){
+                    return this.getDataValue(nom);
+                } else{
+                    this.setDataValue(_value);
+                }
+            }
         },
         description: {
             type: "TEXT(990)",
-            allowNull: true
+            allowNull: true,
+            description(_value = null){
+                if(_value == null){
+                    return this.getDataValue(description);
+                } else{
+                    this.setDataValue(_value);
+                }
+            }
         },
         effet: {
             type: "TEXT(990)",
-            allowNull: true
+            allowNull: true,
+            effet(_value = null){
+                if(_value == null){
+                    return this.getDataValue(effet);
+                } else{
+                    this.setDataValue(_value);
+                }
+            }
         },
         deleted: {
             type: DataTypes.INTEGER,
@@ -41,17 +69,33 @@ module.exports = function (sequelize, DataTypes) {
         ]
     });
 
-    TalentModel.getAll = async function () {
+    TalentModel.createTalent = async function(params){
         try{
-            const data = await TalentModel.findAll();
-            return data;
+            return await TalentModel.create(params);
         } catch(error){
             console.error('[ERREUR]: ' + error);
             return false;
         }
     }
 
-    function aha() {
+    TalentModel.updateTalent = async function(params){
+        try{
+            return await TalentModel.create(params);
+        } catch(error){
+            console.error('[ERREUR]: ' + error);
+            return false;
+        }
+    }
+
+    TalentModel.getAll = async function () {
+        try{
+            let data = await TalentModel.findAll({raw: true});
+            console.dir(data);
+            return data;
+        } catch(error){
+            console.error('[ERREUR]: ' + error);
+            return false;
+        }
     }
 
 

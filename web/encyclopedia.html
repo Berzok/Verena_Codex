@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Veritas Project</title>
+    {{it.head | safe}}
+
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+    <script src="js/encyclopedia.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="style/encyclopedia.css">
+</head>
+
+<body>
+<div class="container-fluid px-0">
+    <div class="d-flex flex-row">
+        <div id="menu">
+            {{it.sidemenu | safe }}
+        </div>
+        <div id="page_content" class="d-flex flex-fill flex-column mt-3 flex-grow-1">
+
+            <h1 class="fw-bolder text-center">Base de connaissances</h1>
+
+
+            <div id="encyclopedia_content" class="container-fluid mt-5 px-5">
+
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button id="nav-carrieres-tab" class="nav-link active" data-bs-toggle="tab" data-bs-target="#nav-carrieres" type="button" role="tab" aria-controls="nav-carrieres" aria-selected="true">Carrières</button>
+                        <button id="nav-skills-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-skills" type="button" role="tab" aria-controls="nav-skills" aria-selected="true">Compétences</button>
+                        <button id="nav-talents-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-talents" type="button" role="tab" aria-controls="nav-talents" aria-selected="false">Talents</button>
+                        <button id="nav-creatures-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-creatures" type="button" role="tab" aria-controls="nav-creatures" aria-selected="false">Créatures</button>
+                    </div>
+                </nav>
+
+                <div id="tab_content" class="tab-content">
+
+                    <div id="nav-carrieres" class="tab-pane fade show active p-2" role="tabpanel" aria-labelledby="carrieres-tab">
+                        Parcourir
+                    </div>
+
+                    <div id="nav-skills" class="tab-pane fade show p-2" role="tabpanel" aria-labelledby="skills-tab">
+                        Parcourir
+                    </div>
+
+                    <div id="nav-talents" class="tab-pane fade border-double border-gold p-2" role="tabpanel" aria-labelledby="talents-tab">
+                        <table id="table_talent" class="table bg-wood table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Id_Talent</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th>Effet</th>
+                            </tr>
+                            </thead>
+                        </table>
+
+                        <br />
+
+                        <div class="card text-white bg-transparent border-danger">
+                            <div class="card-header">
+                                <h1>Détails</h1>
+                            </div>
+                            <div class="card-body">
+                                <form class="card-text">
+                                    <label for="talent_nom">Nom: </label>
+                                    <input id="talent_nom" class="form-control w-25" name="talent_nom" type="text" value=""><br />
+
+                                    <label for="talent_description">Description: </label>
+                                    <div id="talent_description" class="form-control w-50" contenteditable="true" aria-multiline="true" aria-rowspan="3"></div>
+                                    <br />
+
+                                    <label for="talent_effet">Effet: </label>
+                                    <div id="talent_effet" class="form-control w-50" contenteditable="true" aria-multiline="true" aria-rowspan="3"></div>
+
+                                </form>
+
+                                <button id="createTalent" class="btn btn-success btn-outline-light mt-4" type="submit">Créer</button>
+                                <button id="updateTalent" class="btn btn-primary btn-outline-dark mt-4" type="submit">Mettre à jour</button>
+                                <button id="deleteTalent" class="btn btn-danger btn-outline-dark mt-4" type="submit">Supprimer</button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="nav-creatures" class="tab-pane fade" role="tabpanel" aria-labelledby="creatures-tab">
+                        ...
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <img src="" class="rounded me-2" alt="...">
+                    <strong class="me-auto">Bootstrap</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

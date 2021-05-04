@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS talent (
-    id_talent   INTEGER(11) PRIMARY KEY,
+    id_talent   INTEGER PRIMARY KEY,
     nom         TEXT(140),
     description TEXT(990),
     effet       TEXT(990),
