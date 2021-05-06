@@ -69,6 +69,20 @@ module.exports = function (sequelize, DataTypes) {
         ]
     });
 
+    TalentModel.getTalent = async function(id_talent){
+
+        try{
+            let data = '{}';
+            if(id_talent){
+                data = await TalentModel.findByPk(id_talent);
+                return data ? data : null;
+            }
+        } catch(error){
+            console.error('[ERREUR]: ' + error);
+            return false;
+        }
+    }
+
     TalentModel.createTalent = async function(params){
         try{
             return await TalentModel.create(params);
@@ -78,9 +92,11 @@ module.exports = function (sequelize, DataTypes) {
         }
     }
 
-    TalentModel.updateTalent = async function(params){
+    TalentModel.updateTalent = async function(id_talent, params){
+        console.dir(params);
+
         try{
-            return await TalentModel.create(params);
+            return await TalentModel.save();
         } catch(error){
             console.error('[ERREUR]: ' + error);
             return false;
@@ -89,9 +105,7 @@ module.exports = function (sequelize, DataTypes) {
 
     TalentModel.getAll = async function () {
         try{
-            let data = await TalentModel.findAll({raw: true});
-            console.dir(data);
-            return data;
+            return await TalentModel.findAll({raw: true});
         } catch(error){
             console.error('[ERREUR]: ' + error);
             return false;

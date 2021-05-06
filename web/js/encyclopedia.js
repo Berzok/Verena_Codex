@@ -1,5 +1,25 @@
 $(function($){
 
+    var formulaire_talent = null;
+    var formulaire_carriere = null;
+
+    class Formulaire {
+
+        constructor(type) {
+            this.type = type;
+        }
+
+        fields(fields){
+            $.each(fields, function(k, v){
+
+            });
+        }
+
+        addField(field_id, field_name){
+            this[field_name] = field_id;
+        }
+    }
+
     $('button[data-bs-toggle="tab"]').on('show.bs.tab', function (event) {
         localStorage.setItem('activeTab', $(event.target).attr('data-bs-target'));
     });
@@ -48,7 +68,7 @@ $(function($){
         },
         "paging": true,
         "ajax": {
-            "url": '/action/getTalents',
+            "url": '/action/loadTalents',
             "type": 'POST',
             "dataSrc": ""
         },
@@ -70,7 +90,7 @@ $(function($){
                 "data": "nom",
                 "name": "nom",
                 "render": function(data, type, row) {
-                    return '<b>' + data + '</b>';
+                    return '<strong>' + data + '</strong>';
                 }
             },
             {
@@ -82,32 +102,60 @@ $(function($){
                 "name": "effet",
                 "className": "dt-center",
                 "render": function(data, type, row, meta) {
-                    return '<b>' + data + '</b>';
+                    return '<strong>' + data + '</strong>';
                 }
             },
         ],
+    }).on('click', 'tbody tr', function(){
+        let row = table_talent.row(this);
+        $.each(table_talent.rows().nodes(), function(k, v){
+            $(v).removeClass('row-selected');
+        })
+        $(row.node()).addClass('row-selected');
+        let data = row.data();
+        load_talent(data.id_talent);
     });
 
+    function load_talent(id_talent){
+        $.ajax({
+            dataType: 'json',
+            type: 'post',
+            data: {'id_talent': id_talent},
+            url: '/action/getTalent',
+            success: function(data){
+                clear_form();
+                $.each(data, function(k, v){
+                    $('#talent_'+k).val(v);
+                })
+            }
+        })
+    }
 
     $('#createTalent').on('click', function(){
         $.ajax({
             dataType: 'json',
             type: 'post',
-            data: {
-                'nom': $('#talent_nom').val(),
-                'description': $('#talent_description').text(),
-                'effet': $('#talent_effet').text()
-            },
+            data: $('#form_talent').serialize(),
             url: '/action/createTalent',
             success: function(data){
-                bootbox.alert({
-                    title: data.title,
-                    message: 'Le talent - <em>' + data.nom + '</em> a été créé',
-                    onEscape: true
-                });
-                table_talent.ajax.reload();
+                if(data.status === 'ok') {
+                    table_talent.ajax.reload();
+                }
             }
         })
+    });
+
+    $('#cancelTalent').on('click', function(){
+        clear_form(undefined, true);
     })
+
+    function clear_form(onglet = activeTab, clear_table = false){
+        $('#form_talent').find('input[type=text], textarea').val('');
+        if(clear_table) {
+            $.each(table_talent.rows().nodes(), function (k, v) {
+                $(v).removeClass('row-selected');
+            });
+        }
+    }
 
 });

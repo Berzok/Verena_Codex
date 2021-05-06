@@ -8,7 +8,6 @@
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
     <script src="js/encyclopedia.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css"/>
     <link rel="stylesheet" href="style/encyclopedia.css">
 </head>
@@ -37,11 +36,57 @@
 
                 <div id="tab_content" class="tab-content">
 
-                    <div id="nav-carrieres" class="tab-pane fade show active p-2" role="tabpanel" aria-labelledby="carrieres-tab">
-                        Parcourir
+                    <div id="nav-carrieres" class="tab-pane fade show active p-2 border-double border-gold" role="tabpanel" aria-labelledby="carrieres-tab">
+                        <table id="table_carriere" class="table bg-wood table-bordered">
+                            <thead>
+                            <tr>
+                                <th>id_carriere</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th>Effet</th>
+                            </tr>
+                            </thead>
+                        </table>
+
+                        <br />
+
+                        <div class="card text-white bg-transparent border-danger">
+                            <div class="card-header">
+                                <h1>Détails</h1>
+                            </div>
+                            <div class="card-body">
+                                <form id="form_carriere" class="card-text">
+                                    <label for="carriere_nom">Nom: </label>
+                                    <input id="carriere_nom" class="form-control w-25" name="nom" type="text" value="">
+                                    <br />
+
+                                    <label for="carriere_description">Description: </label>
+                                    <textarea id="carriere_description" class="form-control w-50" name="description" contenteditable="true" aria-multiline="true"></textarea>
+                                    <br />
+
+                                    <label for="carriere_effet">Effet: </label>
+                                    <textarea id="carriere_effet" class="form-control w-50" name="effet" contenteditable="true" aria-multiline="true"></textarea>
+
+                                </form>
+
+                                <button id="createCarriere" class="btn btn-success btn-outline-light mt-4" type="submit">
+                                    <span class="fas fa-plus"></span> Créer
+                                </button>
+                                <button id="updateCarriere" class="btn btn-primary btn-outline-dark mt-4" type="submit">
+                                    <span class="fas fa-check"></span> Mettre à jour
+                                </button>
+                                <button id="deleteCarriere" class="btn btn-danger btn-outline-dark mt-4" type="submit">
+                                    <span class="fas fa-dumpster"></span> Supprimer
+                                </button>
+                                <button id="cancelCarriere" class="btn btn-warning btn-outline-dark mt-4" type="button">
+                                    <span class="fas fa-times"></span> Annuler
+                                </button>
+
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="nav-skills" class="tab-pane fade show p-2" role="tabpanel" aria-labelledby="skills-tab">
+                    <div id="nav-skills" class="tab-pane fade p-2" role="tabpanel" aria-labelledby="skills-tab">
                         Parcourir
                     </div>
 
@@ -64,22 +109,32 @@
                                 <h1>Détails</h1>
                             </div>
                             <div class="card-body">
-                                <form class="card-text">
+                                <form id="form_talent" class="card-text">
                                     <label for="talent_nom">Nom: </label>
-                                    <input id="talent_nom" class="form-control w-25" name="talent_nom" type="text" value=""><br />
+                                    <input id="talent_nom" class="form-control w-25" name="nom" type="text" value="">
+                                    <br />
 
                                     <label for="talent_description">Description: </label>
-                                    <div id="talent_description" class="form-control w-50" contenteditable="true" aria-multiline="true" aria-rowspan="3"></div>
+                                    <textarea id="talent_description" class="form-control w-50" name="description" contenteditable="true" aria-multiline="true"></textarea>
                                     <br />
 
                                     <label for="talent_effet">Effet: </label>
-                                    <div id="talent_effet" class="form-control w-50" contenteditable="true" aria-multiline="true" aria-rowspan="3"></div>
+                                    <textarea id="talent_effet" class="form-control w-50" name="effet" contenteditable="true" aria-multiline="true"></textarea>
 
                                 </form>
 
-                                <button id="createTalent" class="btn btn-success btn-outline-light mt-4" type="submit">Créer</button>
-                                <button id="updateTalent" class="btn btn-primary btn-outline-dark mt-4" type="submit">Mettre à jour</button>
-                                <button id="deleteTalent" class="btn btn-danger btn-outline-dark mt-4" type="submit">Supprimer</button>
+                                <button id="createTalent" class="btn btn-success btn-outline-light mt-4" type="submit">
+                                    <span class="fas fa-plus"></span> Créer
+                                </button>
+                                <button id="updateTalent" class="btn btn-primary btn-outline-dark mt-4" type="submit">
+                                    <span class="fas fa-check"></span> Mettre à jour
+                                </button>
+                                <button id="deleteTalent" class="btn btn-danger btn-outline-dark mt-4" type="submit">
+                                    <span class="fas fa-dumpster"></span> Supprimer
+                                </button>
+                                <button id="cancelTalent" class="btn btn-warning btn-outline-dark mt-4" type="button">
+                                    <span class="fas fa-times"></span> Annuler
+                                </button>
 
                             </div>
                         </div>

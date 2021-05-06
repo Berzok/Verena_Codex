@@ -15,8 +15,16 @@ module.exports = () => {
     });
 
 
-    router.post('/getTalents', function(req, res) {
+    router.post('/loadTalents', function(req, res) {
         models.Talent.getAll().then((response) => {
+            if(response){
+                res.send(response);
+            }
+        });
+    });
+
+    router.post('/getTalent', function(req, res) {
+        models.Talent.getTalent(req.body.id_talent).then((response) => {
             if(response){
                 res.send(response);
             }
@@ -25,7 +33,9 @@ module.exports = () => {
 
     router.post('/createTalent', function(req, res) {
         let newTalent = models.Talent.createTalent(req.body);
-        res.send(newTalent);
+        res.send({
+            status: 'ok'
+        });
     });
 
 

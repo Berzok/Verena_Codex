@@ -4,3 +4,7 @@
 #talent_description{
     resize: vertical;
 }
+
+.row-selected{
+    background-color: palegoldenrod !important;
+}

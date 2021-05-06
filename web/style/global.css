@@ -11,6 +11,9 @@ a{
 .bg-wood{
     background-color: #855E42;
 }
+.bg-palegoldenrod{
+    background-color: palegoldenrod !important;
+}
 
 .border-double{
     border: 3px double;

@@ -10,7 +10,7 @@ var initModels = require('./models/init-models.js');
 
 // Create Express app
 const app = express();
-const port = 61046;
+const port = 61046 || process.env.PORT;
 
 
 function initDatabase(){
