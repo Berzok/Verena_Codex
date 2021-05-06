@@ -6,8 +6,8 @@
   "scripts": {
     "build": "node build.js",
     "listen": "node listen.js",
-    "standalone": "node standalone.js",
-    "start": "node start.js"
+    "start": "node start.js",
+    "standalone": "node standalone.js"
   },
   "dependencies": {
     "@neutralinojs/neu": "^3.0.3",

@@ -1,7 +1,7 @@
 var DataTypes = require("sequelize").DataTypes;
-var _talent = require("./talent");
-var _talent_bonus = require("./talent_bonus");
-var _talent_specialisation = require("./talent_specialisation");
+var _talent = require("./Talent");
+var _talent_bonus = require("./Talent_bonus");
+var _talent_specialisation = require("./Talent_specialisation");
 
 function initModels(sequelize) {
     var Talent = _talent(sequelize, DataTypes);
