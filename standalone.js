@@ -10,7 +10,9 @@ var initModels = require('./models/init-models.js');
 
 // Create Express app
 const app = express();
-const port = 61046 || process.env.PORT;
+
+const host = '0.0.0.0';
+const port = process.env.PORT || 61046;
 
 
 function initDatabase(){
@@ -54,4 +56,4 @@ app.use('/action', actionRouter);
 
 
 // Start the Express server
-app.listen(port, () => console.log('Server running on port ' + port + '!'));
+app.listen(port, host, () => console.log('Server running on port ' + port + '!'));
