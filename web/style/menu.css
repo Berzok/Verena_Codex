@@ -1,6 +1,10 @@
 #menu{
     background-color: #80003A;
-    height: 100vh;
+    min-height: 100vh;
     border: 3px double #FADE55;
     width: 180px;
+}
+
+#menu_content{
+
 }

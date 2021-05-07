@@ -56,6 +56,7 @@
                             </div>
                             <div class="card-body">
                                 <form id="form_carriere" class="card-text">
+
                                     <label for="carriere_nom">Nom: </label>
                                     <input id="carriere_nom" class="form-control w-25" name="nom" type="text" value="">
                                     <br />
@@ -91,7 +92,7 @@
                     </div>
 
                     <div id="nav-talents" class="tab-pane fade border-double border-gold p-2" role="tabpanel" aria-labelledby="talents-tab">
-                        <table id="table_talent" class="table bg-wood table-bordered">
+                        <table id="table_talent" class="table table-hover bg-wood table-bordered">
                             <thead>
                             <tr>
                                 <th>Id_Talent</th>
@@ -109,34 +110,58 @@
                                 <h1>Détails</h1>
                             </div>
                             <div class="card-body">
-                                <form id="form_talent" class="card-text">
-                                    <label for="talent_nom">Nom: </label>
-                                    <input id="talent_nom" class="form-control w-25" name="nom" type="text" value="">
-                                    <br />
+                                <form id="form_talent" class="card-text container-fluid">
+                                    <input id="id_talent" name="id_talent" type="hidden">
 
-                                    <label for="talent_description">Description: </label>
-                                    <textarea id="talent_description" class="form-control w-50" name="description" contenteditable="true" aria-multiline="true"></textarea>
-                                    <br />
+                                    <div class="row gx-5 gy-2">
 
-                                    <label for="talent_effet">Effet: </label>
-                                    <textarea id="talent_effet" class="form-control w-50" name="effet" contenteditable="true" aria-multiline="true"></textarea>
+                                        <div class="col">
 
+                                            <label for="talent_nom">Nom: </label>
+                                            <input id="talent_nom" class="form-control" name="nom" type="text" value="">
+                                            <br />
+
+                                            <label for="talent_description">Description: </label>
+                                            <textarea id="talent_description" class="form-control" name="description" contenteditable="true" aria-multiline="true" rows="4"></textarea>
+                                            <br />
+
+                                            <label for="talent_effet">Effet: </label>
+                                            <textarea id="talent_effet" class="form-control" name="effet" contenteditable="true" aria-multiline="true" rows="2"></textarea>
+                                        </div>
+
+
+                                        <div class="col">
+
+                                            <label>Spécialisations disponibles:</label>
+                                            <h2><em>W.I.D</em></h2>
+
+                                            <br />
+
+                                            <label>Accessible dans les carrières suivantes:</label>
+                                            <h2><em>W.I.D</em></h2>
+
+                                        </div>
+
+                                    </div>
                                 </form>
 
-                                <button id="createTalent" class="btn btn-success btn-outline-light mt-4" type="submit">
+                            </div>
+
+                            <div class="card-footer">
+                                <button id="createTalent" class="btn btn-success btn-outline-light" type="submit" disabled>
                                     <span class="fas fa-plus"></span> Créer
                                 </button>
-                                <button id="updateTalent" class="btn btn-primary btn-outline-dark mt-4" type="submit">
+                                <button id="updateTalent" class="btn btn-primary btn-outline-light" type="submit" disabled>
                                     <span class="fas fa-check"></span> Mettre à jour
                                 </button>
-                                <button id="deleteTalent" class="btn btn-danger btn-outline-dark mt-4" type="submit">
+                                <button id="deleteTalent" class="btn btn-danger btn-outline-dark" type="submit" disabled>
                                     <span class="fas fa-dumpster"></span> Supprimer
                                 </button>
-                                <button id="cancelTalent" class="btn btn-warning btn-outline-dark mt-4" type="button">
+                                <button id="cancelTalent" class="btn btn-warning btn-outline-dark" type="button" disabled>
                                     <span class="fas fa-times"></span> Annuler
                                 </button>
-
                             </div>
+
                         </div>
                     </div>
 
@@ -146,18 +171,6 @@
 
                 </div>
 
-            </div>
-
-            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <img src="" class="rounded me-2" alt="...">
-                    <strong class="me-auto">Bootstrap</strong>
-                    <small>11 mins ago</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    Hello, world! This is a toast message.
-                </div>
             </div>
 
         </div>

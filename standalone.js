@@ -12,7 +12,7 @@ var initModels = require('./models/init-models.js');
 const app = express();
 
 const host = '0.0.0.0';
-const port = process.env.PORT || 61046;
+const port = process.env.PORT || 3000;
 
 
 function initDatabase(){

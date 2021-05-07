@@ -70,7 +70,6 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     TalentModel.getTalent = async function(id_talent){
-
         try{
             let data = '{}';
             if(id_talent){
@@ -92,11 +91,25 @@ module.exports = function (sequelize, DataTypes) {
         }
     }
 
-    TalentModel.updateTalent = async function(id_talent, params){
-        console.dir(params);
-
+    TalentModel.deleteTalent = async function(id_talent){
         try{
-            return await TalentModel.save();
+            let talentToDelete = await this.getTalent(id_talent);
+            return await talentToDelete.destroy();
+        } catch(error){
+            console.error('[ERREUR]: ' + error);
+            return false;
+        }
+    }
+
+    TalentModel.updateTalent = async function(id_talent, params){
+        try{
+            let talentToUpdate = await this.getTalent(id_talent);
+
+            talentToUpdate.nom = params.nom;
+            talentToUpdate.description = params.description;
+            talentToUpdate.effet = params.effet;
+
+            return await talentToUpdate.save();
         } catch(error){
             console.error('[ERREUR]: ' + error);
             return false;
