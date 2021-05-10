@@ -4,20 +4,34 @@ $(function($){
 
     clear_form();
 
+    $('button[aria-label="create"]').each((k, v) => {
+        $(v).prop('disabled', session.can_create === null);
+    });
+    $('button[aria-label="update"]').each((k, v) => {
+        $(v).prop('disabled', session.can_update === null);
+    });
+    $('button[aria-label="delete"]').each((k, v) => {
+        $(v).prop('disabled', session.can_delete === null);
+    });
+
     function toast(type, title, message){
 
         let header = '<div class="toast-header">';
         if(type === 'success'){
             header += '<strong class="me-auto text-success"><span class="fas fa-check-circle"></span> ' + title + '</strong>';
         } else{
-            header += '<strong class="me-auto text-error"><span class="fas exclamation-triangle"></span> ' + title + '</strong>';
+            header += '<strong class="me-auto text-danger"><span class="fas fa-exclamation-triangle"></span> ' + title + '</strong>';
         }
         header += '<button type="button" class="btn-close align-self-end" data-bs-dismiss="toast" aria-label="Close"></button>';
         header += '</div>';
 
         let toast = '<div id="toast_message" class="toast border-dark position-fixed mt-5 start-50 translate-middle-x" role="alert" aria-live="polite" aria-atomic="true">';
         toast += header;
-        toast += '<div class="toast-body bg-info">' + message + '</div>';
+        if(type === 'success'){
+            toast += '<div class="toast-body bg-info">' + message + '</div>';
+        } else{
+            toast += '<div class="toast-body bg-warning">' + message + '</div>';
+        }
         toast += '</div>';
 
         $('#page_content').append(toast);
@@ -44,7 +58,7 @@ $(function($){
         toast(response.type, response.title, response.message);
         if(response.status === 'ok'){
             clear_form();
-            table_talent.ajax.reload();
+            table_talent.ajax.reload(null, false);
         }
     }
 
@@ -94,6 +108,7 @@ $(function($){
             },
             "paging": true
         });
+        $.fn.DataTable.ext.order.intl("fr"); // French locale
     }
 
     initDatatables().then(r => {
@@ -114,26 +129,32 @@ $(function($){
     table_talent = $('#table_talent').DataTable({
         "columnDefs": [
             {
+                "targets": 1,
+                "width": "15%"
+            },
+            {
+                "targets": 2,
+                "width": "55%",
                 "render": function(data, type, row, meta){
                     if(type === 'display') {
-                        return data.replace('\r\n', '<br />');
+                        let expandButton = '';
+                        //expandButton = '<button class="btn btn-info" type="button"><span class="fas fa-plus"></span></button>';
+                        let formattedData = data.replaceAll('\r\n', '<br />');
+                        return $.fn.dataTable.render.ellipsis(450, true, false)(expandButton + formattedData, type, row);
+                    }
+                    return data;
+                }
+            },
+            {
+                "targets": 3,
+                "width": "25%",
+                "render": function(data, type, row, meta){
+                    if(type === 'display') {
+                        return data.replaceAll('\r\n', '<br />');
                     }
                     return data;
                 },
-                "targets": [2, 3]
             },
-            {
-                "width": "15%",
-                "targets": 1
-            },
-            {
-                "width": "60%",
-                "targets": 2
-            },
-            {
-                "width": "20%",
-                "targets": 3
-            }
         ],
         "ajax": {
             "url": '/action/loadTalents',
@@ -152,9 +173,7 @@ $(function($){
             {
                 "data": "nom",
                 "name": "nom",
-                "render": function(data, type, row) {
-                    return '<strong>' + data + '</strong>';
-                }
+                "className": 'fw-bold'
             },
             {
                 "data": "description",

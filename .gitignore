@@ -5,3 +5,5 @@
 /dist/*
 neutralinojs.log
 veritas_project_bdd.sqlite
+.env
+config/config.js

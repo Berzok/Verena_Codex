@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS talent_specialisation (
 );
 
 CREATE TABLE IF NOT EXISTS talent_bonus (
-    id_talent_bonus INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+    id_talent_bonus INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     id_talent       INTEGER FOREIGN KEY
         REFERENCES talent (id_talent),
     capacite_combat INTEGER DEFAULT NULL,

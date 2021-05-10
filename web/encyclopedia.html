@@ -6,6 +6,10 @@
 
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/intl.js"></script>
+
+
+    <script src="js/utils-dt.js"></script>
     <script src="js/encyclopedia.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css"/>
@@ -148,16 +152,16 @@
                             </div>
 
                             <div class="card-footer">
-                                <button id="createTalent" class="btn btn-success btn-outline-light" type="submit" disabled>
+                                <button id="createTalent" class="btn btn-success btn-outline-light" aria-label="create" type="submit" disabled>
                                     <span class="fas fa-plus"></span> Créer
                                 </button>
-                                <button id="updateTalent" class="btn btn-primary btn-outline-light" type="submit" disabled>
+                                <button id="updateTalent" class="btn btn-primary btn-outline-light" aria-label="update" type="submit" disabled>
                                     <span class="fas fa-check"></span> Mettre à jour
                                 </button>
-                                <button id="deleteTalent" class="btn btn-danger btn-outline-dark" type="submit" disabled>
+                                <button id="deleteTalent" class="btn btn-danger btn-outline-dark" aria-label="delete" type="submit" disabled>
                                     <span class="fas fa-dumpster"></span> Supprimer
                                 </button>
-                                <button id="cancelTalent" class="btn btn-warning btn-outline-dark" type="button" disabled>
+                                <button id="cancelTalent" class="btn btn-warning btn-outline-dark" aria-label="cancel" type="button" disabled>
                                     <span class="fas fa-times"></span> Annuler
                                 </button>
                             </div>
