@@ -7,8 +7,7 @@ CREATE TABLE IF NOT EXISTS carriere (
 
 CREATE TABLE IF NOT EXISTS carriere_plan (
     id_carriere_plan INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    id_carriere      INTEGER FOREIGN KEY
-        REFERENCES carriere (id_carriere),
+    id_carriere      INTEGER,
     capacite_combat  INTEGER DEFAULT NULL,
     capacite_tir     INTEGER DEFAULT NULL,
     force            INTEGER DEFAULT NULL,
@@ -23,5 +22,7 @@ CREATE TABLE IF NOT EXISTS carriere_plan (
     magie            INTEGER DEFAULT NULL,
     fortune          INTEGER DEFAULT NULL,
     destin           INTEGER DEFAULT NULL,
-    deleted          INTEGER DEFAULT 0
+    deleted          INTEGER DEFAULT 0,
+    FOREIGN KEY (id_carriere)
+        REFERENCES carriere (id_carriere)
 );

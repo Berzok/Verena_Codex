@@ -1,8 +1,12 @@
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+const _talent_specialisation = require('./Talent_specialisation');
 
 module.exports = function (sequelize, DataTypes) {
 
-    const Talent = sequelize.define('talent', {
+    var Talent_specialisation = _talent_specialisation(sequelize, DataTypes);
+
+    const Talent = sequelize.define('Talent', {
         id_talent: {
             type: DataTypes.INTEGER,
             allowNull: true,
@@ -10,15 +14,15 @@ module.exports = function (sequelize, DataTypes) {
             unique: true,
         },
         nom: {
-            type: "TEXT(140)",
+            type: DataTypes.TEXT,
             allowNull: true,
         },
         description: {
-            type: "TEXT(990)",
+            type: DataTypes.TEXT,
             allowNull: true,
         },
         effet: {
-            type: "TEXT(990)",
+            type: DataTypes.TEXT,
             allowNull: true,
         },
         deleted: {
@@ -41,40 +45,54 @@ module.exports = function (sequelize, DataTypes) {
         ]
     });
 
-    Talent.getTalent = async function(id_talent){
-        try{
+    Talent.getTalent = async function (id_talent) {
+        try {
             let data = '{}';
-            if(id_talent){
-                data = await Talent.findByPk(id_talent);
+            if (id_talent) {
+                data = await Talent.findByPk(id_talent, {
+                    attributes: ['nom', 'description', 'effet'],
+                    where: {
+                        deleted: 0
+                    },
+                    include: {
+                        attributes: ['nom'],
+                        model: Talent_specialisation,
+                        as: 'talent_specialisations',
+                        required: false,
+                        where: {
+                            id_talent: {[Op.col]: 'Talent.id_talent'}
+                        }
+                    }
+                });
                 return data ? data : null;
             }
-        } catch(error){
+        } catch (error) {
             console.error('[ERREUR]: ' + error);
             return false;
         }
     }
 
-    Talent.createTalent = async function(params){
-        try{
+    Talent.createTalent = async function (params) {
+        try {
             return await Talent.create(params);
-        } catch(error){
+        } catch (error) {
             console.error('[ERREUR]: ' + error);
             return false;
         }
     }
 
-    Talent.deleteTalent = async function(id_talent){
-        try{
+    Talent.deleteTalent = async function (id_talent) {
+        try {
             let talentToDelete = await this.getTalent(id_talent);
             return await talentToDelete.destroy();
-        } catch(error){
+        } catch (error) {
             console.error('[ERREUR]: ' + error);
             return false;
         }
     }
 
-    Talent.updateTalent = async function(id_talent, params){
-        try{
+    Talent.updateTalent = async function (id_talent, params) {
+        try {
             let talentToUpdate = await this.getTalent(id_talent);
 
             talentToUpdate.nom = params.nom;
@@ -82,16 +100,18 @@ module.exports = function (sequelize, DataTypes) {
             talentToUpdate.effet = params.effet;
 
             return await talentToUpdate.save();
-        } catch(error){
+        } catch (error) {
             console.error('[ERREUR]: ' + error);
             return false;
         }
     }
 
     Talent.getAll = async function () {
-        try{
-            return await Talent.findAll({raw: true});
-        } catch(error){
+        try {
+            return await Talent.findAll({
+                raw: true,
+            });
+        } catch (error) {
             console.error('[ERREUR]: ' + error);
             return false;
         }

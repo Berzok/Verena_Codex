@@ -1,19 +1,32 @@
 // app.js
 const express = require('express');
 var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 const path = require('path');
 const sqrl = require('squirrelly');
 const Sequelize = require("sequelize");
 sqrl.getConfig({views: './web/'});
 
 var initModels = require('./models/init-models.js');
-
+var fileStoreOptions = {};
 
 // Create Express app
 const app = express();
 
 app.set('version', '0.1.0');
 
+
+app.use(session({
+    store: new FileStore(fileStoreOptions),
+    resave: false,
+    saveUninitialized: true,
+    secret: "Veritas_Project",
+    cookie: {
+        maxAge: (30 * 86400 * 1000),                          //
+        secure: false, //True en prod
+        expires: new Date(Date.now() + (3600 * 24 * 7 * 1000))     //30 * 86400 * 1000 Pour 1 mois
+    }
+}));
 
 module.exports.version = (version) => {
     return app.get('version');
@@ -48,16 +61,6 @@ var actionRouter = require('./routes/action')();
 app.set('title', 'Veritas Project');
 app.set('views', __dirname + '/web');
 app.engine('html', sqrl.renderFile);
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: "Veritas_Project",
-    cookie: {
-        maxAge: (30 * 86400 * 1000),                          //
-        secure: false, //True en prod
-        expires: new Date(Date.now() + (3600 * 24 * 7 * 1000))     //30 * 86400 * 1000 Pour 1 mois
-    }
-}));
 
 
 app.use('/img', express.static('web/img'));

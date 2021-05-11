@@ -6,4 +6,6 @@
 neutralinojs.log
 veritas_project_bdd.sqlite
 .env
+sessions
+sessions/*
 config/config.js

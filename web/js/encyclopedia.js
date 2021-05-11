@@ -14,35 +14,6 @@ $(function($){
         $(v).prop('disabled', session.can_delete === null);
     });
 
-    function toast(type, title, message){
-
-        let header = '<div class="toast-header">';
-        if(type === 'success'){
-            header += '<strong class="me-auto text-success"><span class="fas fa-check-circle"></span> ' + title + '</strong>';
-        } else{
-            header += '<strong class="me-auto text-danger"><span class="fas fa-exclamation-triangle"></span> ' + title + '</strong>';
-        }
-        header += '<button type="button" class="btn-close align-self-end" data-bs-dismiss="toast" aria-label="Close"></button>';
-        header += '</div>';
-
-        let toast = '<div id="toast_message" class="toast border-dark position-fixed mt-5 start-50 translate-middle-x" role="alert" aria-live="polite" aria-atomic="true">';
-        toast += header;
-        if(type === 'success'){
-            toast += '<div class="toast-body bg-info">' + message + '</div>';
-        } else{
-            toast += '<div class="toast-body bg-warning">' + message + '</div>';
-        }
-        toast += '</div>';
-
-        $('#page_content').append(toast);
-
-        $('#toast_message').on('hidden.bs.toast', '', this, (e) => {
-            e.target.remove();
-        })
-
-        let le_toast = new bootstrap.Toast($('#toast_message')[0]);
-        le_toast.show();
-    }
 
     function getFormData(formulaire){
         let data = {};
@@ -61,59 +32,6 @@ $(function($){
             table_talent.ajax.reload(null, false);
         }
     }
-
-    async function initDatatables(){
-        $.extend(true, $.fn.dataTable.defaults, {
-            "autoWidth": false,
-            "lengthMenu": [
-                [5, 10, -1],
-                [5, 10, 'Tous']
-            ],
-            "pageLength": 5,
-            "responsive": true,
-            "createdRow": function(row, data, index, cells){
-                $(row).addClass('bg-light');
-            },
-            "order": [
-                [1, "asc"]
-            ],
-            "language": {
-                "emptyTable":     "Aucune donnée disponible dans le tableau",
-                "info":           "Affichage de l'élément _START_ à _END_ sur _TOTAL_",
-                "infoEmpty":      "Affichage de l'élément 0 à 0 sur 0 élément",
-                "infoFiltered":   "(filtré à partir de _MAX_ éléments au total)",
-                "thousands":  ",",
-                "lengthMenu":     "Afficher _MENU_ éléments",
-                "loadingRecords": "Chargement...",
-                "processing":     "Traitement...",
-                "search":         "Rechercher :",
-                "zeroRecords":    "Aucun élément correspondant trouvé",
-                "paginate": {
-                    "first":    "Premier",
-                    "last":     "Dernier",
-                    "next":     "Suivant",
-                    "previous": "Précédent"
-                },
-                "aria": {
-                    "sortAscending":  ": activer pour trier la colonne par ordre croissant",
-                    "sortDescending": ": activer pour trier la colonne par ordre décroissant"
-                },
-                "select": {
-                    "rows": {
-                        "_": "%d lignes sélectionnées",
-                        "0": "Aucune ligne sélectionnée",
-                        "1": "1 ligne sélectionnée"
-                    }
-                }
-            },
-            "paging": true
-        });
-        $.fn.DataTable.ext.order.intl("fr"); // French locale
-    }
-
-    initDatatables().then(r => {
-
-    });
 
     $('button[data-bs-toggle="tab"]').on('show.bs.tab', function (event) {
         localStorage.setItem('activeTab', $(event.target).attr('data-bs-target'));
@@ -206,10 +124,24 @@ $(function($){
                 $.each(data, function(k, v){
                     $('#talent_'+k).val(v);
                 });
+                load_specialisations(data.talent_specialisations);
                 $('#createTalent').prop('disabled', true);
                 $('#updateTalent, #deleteTalent, #cancelTalent').prop('disabled', false);
+                $('#talent_details').prop('hidden', false);
             }
         });
+    }
+
+    function load_specialisations(talent_specs){
+        $('#talent_specialisations').html('');
+        let textToPrepend = '<label><span class="fas fa-exclamation-circle"></span> Aucune spécialisation disponible</label>'
+        if(talent_specs.length){
+            $.each(talent_specs, (k, v) => {
+                $('#talent_specialisations').append('<li class="list-group-item">' + v.nom + '</li>')
+            });
+            textToPrepend = '<label>Spécialisations disponibles:</label>';
+        }
+        $('#talent_specialisations').prepend(textToPrepend);
     }
 
     $('#createTalent').on('click', function(){
@@ -261,6 +193,7 @@ $(function($){
             $.each(table_talent.rows().nodes(), function (k, v) {
                 $(v).removeClass('row-selected');
             });
+            $('#talent_details').prop('hidden', true);
         }
     }
 

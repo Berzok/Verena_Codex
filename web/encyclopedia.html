@@ -9,6 +9,7 @@
     <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/intl.js"></script>
 
 
+    <script src="js/utils.js"></script>
     <script src="js/utils-dt.js"></script>
     <script src="js/encyclopedia.js"></script>
 
@@ -27,7 +28,7 @@
             <h1 class="fw-bolder text-center">Base de connaissances</h1>
 
 
-            <div id="encyclopedia_content" class="container-fluid mt-5 px-5">
+            <div id="encyclopedia_content" class="container-fluid my-5 px-5">
 
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -109,7 +110,7 @@
 
                         <br />
 
-                        <div class="card text-white bg-transparent border-danger">
+                        <div id="talent_details" class="card text-white bg-transparent border-danger" hidden>
                             <div class="card-header">
                                 <h1>Détails</h1>
                             </div>
@@ -126,7 +127,7 @@
                                             <br />
 
                                             <label for="talent_description">Description: </label>
-                                            <textarea id="talent_description" class="form-control" name="description" contenteditable="true" aria-multiline="true" rows="4"></textarea>
+                                            <textarea id="talent_description" class="form-control" name="description" contenteditable="true" aria-multiline="true" rows="6"></textarea>
                                             <br />
 
                                             <label for="talent_effet">Effet: </label>
@@ -136,8 +137,8 @@
 
                                         <div class="col">
 
-                                            <label>Spécialisations disponibles:</label>
-                                            <h2><em>W.I.D</em></h2>
+                                            <ul id="talent_specialisations" class="list-group">
+                                            </ul>
 
                                             <br />
 

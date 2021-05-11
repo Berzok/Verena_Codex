@@ -2,9 +2,9 @@
     background-color: #80003A;
     min-height: 100vh;
     border: 3px double #FADE55;
-    width: 180px;
+    width: 180px !important;
 }
 
 #menu_content{
-
+    width: 174px;
 }

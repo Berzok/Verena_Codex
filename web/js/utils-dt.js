@@ -47,11 +47,23 @@ $.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
     };
 };
 
-/*
 $.extend(true, $.fn.dataTable.defaults, {
+    "autoWidth": false,
+    "lengthMenu": [
+        [5, 10, -1],
+        [5, 10, 'Tous']
+    ],
+    "pageLength": 5,
+    "responsive": true,
+    "createdRow": function(row, data, index, cells){
+        $(row).addClass('bg-light');
+    },
+    "order": [
+        [1, "asc"]
+    ],
     "language": {
         "emptyTable":     "Aucune donnée disponible dans le tableau",
-        "info":           "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+        "info":           "Affichage de l'élément _START_ à _END_ sur _TOTAL_",
         "infoEmpty":      "Affichage de l'élément 0 à 0 sur 0 élément",
         "infoFiltered":   "(filtré à partir de _MAX_ éléments au total)",
         "thousands":  ",",
@@ -77,6 +89,7 @@ $.extend(true, $.fn.dataTable.defaults, {
                 "1": "1 ligne sélectionnée"
             }
         }
-    }
+    },
+    "paging": true
 });
-*/
+$.fn.DataTable.ext.order.intl("fr"); // French locale
