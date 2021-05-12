@@ -50,7 +50,7 @@ module.exports = function (sequelize, DataTypes) {
             let data = '{}';
             if (id_talent) {
                 data = await Talent.findByPk(id_talent, {
-                    attributes: ['nom', 'description', 'effet'],
+                    attributes: ['id_talent', 'nom', 'description', 'effet'],
                     where: {
                         deleted: 0
                     },
