@@ -21,7 +21,7 @@
 <div class="container-fluid px-0">
     <div class="d-flex flex-row">
         <div id="menu">
-            {{it.sidemenu | safe }}
+            {{ it.sidemenu | safe }}
         </div>
         <div id="page_content" class="d-flex flex-fill flex-column mt-3 flex-grow-1">
 
@@ -36,6 +36,7 @@
                         <button id="nav-skills-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-skills" type="button" role="tab" aria-controls="nav-skills" aria-selected="true">Compétences</button>
                         <button id="nav-talents-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-talents" type="button" role="tab" aria-controls="nav-talents" aria-selected="false">Talents</button>
                         <button id="nav-creatures-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-creatures" type="button" role="tab" aria-controls="nav-creatures" aria-selected="false">Créatures</button>
+                        <button id="nav-dons-du-sang-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-dons-du-sang" type="button" role="tab" aria-controls="nav-dons-du-sang" aria-selected="false">Dons du sang</button>
                     </div>
                 </nav>
 
@@ -172,6 +173,68 @@
 
                     <div id="nav-creatures" class="tab-pane fade" role="tabpanel" aria-labelledby="creatures-tab">
                         ...
+                    </div>
+
+                    <div id="nav-dons-du-sang" class="tab-pane fade border-double border-gold p-2" role="tabpanel" aria-labelledby="dons-du-sang-tab">
+                        <table id="table_dons_du_sang" class="table table-hover bg-wood table-bordered">
+                            <thead>
+                            <tr>
+                                <th>id_don_du_sang</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th>Effet</th>
+                            </tr>
+                            </thead>
+                        </table>
+
+                        <br />
+
+                        <div id="don_du_sang_details" class="card text-white bg-transparent border-danger" >
+                            <div class="card-header">
+                                <h1>Détails</h1>
+                            </div>
+                            <div class="card-body">
+                                <form id="form_don_du_sang" class="card-text container-fluid">
+                                    <input id="id_don_du_sang" name="id_don_du_sang" type="hidden">
+
+                                    <div class="row gx-5 gy-2">
+
+                                        <div class="col-8">
+
+                                            <label for="don_du_sang_nom">Nom: </label>
+                                            <input id="don_du_sang_nom" class="form-control" name="nom" type="text" value="">
+                                            <br />
+
+                                            <label for="don_du_sang_description">Description: </label>
+                                            <textarea id="don_du_sang_description" class="form-control" name="description" contenteditable="true" aria-multiline="true" rows="6"></textarea>
+                                            <br />
+
+                                            <label for="don_du_sang_effet">Effet: </label>
+                                            <textarea id="don_du_sang_effet" class="form-control" name="effet" contenteditable="true" aria-multiline="true" rows="2"></textarea>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <button id="createDonDuSang" class="btn btn-success btn-outline-light" aria-label="create" type="submit" disabled>
+                                    <span class="fas fa-plus"></span> Créer
+                                </button>
+                                <button id="updateDonDuSang" class="btn btn-primary btn-outline-light" aria-label="update" type="submit" disabled>
+                                    <span class="fas fa-check"></span> Mettre à jour
+                                </button>
+                                <button id="deleteDonDuSang" class="btn btn-danger btn-outline-dark" aria-label="delete" type="submit" disabled>
+                                    <span class="fas fa-dumpster"></span> Supprimer
+                                </button>
+                                <button id="cancelDonDuSang" class="btn btn-warning btn-outline-dark" aria-label="cancel" type="button" disabled>
+                                    <span class="fas fa-times"></span> Annuler
+                                </button>
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>

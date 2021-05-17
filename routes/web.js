@@ -27,9 +27,9 @@ module.exports = () => {
     });
 
 
-    router.get('/js/:filename', function(req, res) {
+    router.get('/js/:folder?/:filename', function(req, res) {
         res.sendFile(req.params.filename, {
-            root: './web/js',
+            root: './web/js' + (req.params.folder ? '/' + req.params.folder : ''),
             dotfiles: 'deny',
             headers: {
                 'x-timestamp': Date.now(),

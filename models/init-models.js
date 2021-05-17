@@ -1,4 +1,5 @@
 var DataTypes = require("sequelize").DataTypes;
+var _don_du_sang = require("./Don_du_sang");
 var _role = require("./Role");
 var _talent = require("./Talent");
 var _talent_bonus = require("./Talent_bonus");
@@ -7,6 +8,7 @@ var _utilisateur = require("./Utilisateur");
 
 function initModels(sequelize) {
     var Role = _role(sequelize, DataTypes);
+    var Don_du_sang = _don_du_sang(sequelize, DataTypes);
     var Talent = _talent(sequelize, DataTypes);
     var Talent_bonus = _talent_bonus(sequelize, DataTypes);
     var Talent_specialisation = _talent_specialisation(sequelize, DataTypes);
@@ -39,6 +41,7 @@ function initModels(sequelize) {
     });
 
     return {
+        Don_du_sang,
         Role,
         Talent,
         Talent_bonus,
