@@ -4,13 +4,10 @@ const sequelize = require('sequelize');
 const {models : initModels} = require('./../standalone');
 
 models = initModels();
-const Talent = models.Talent;
-const TalentBonus = models.Talent_bonus;
-const TalentSpecialisation = models.Talent_specialisation;
+const Carriere = models.Carriere;
 const Utilisateur = models.Utilisateur;
 
-module.exports = (talentRouter) => {
-
+module.exports = (carriereRouter) => {
 
     var response = {
         status: 'nok',
@@ -59,7 +56,7 @@ module.exports = (talentRouter) => {
 
 
     router.post('/loadAll', function(req, res) {
-        Talent.getAll().then((data) => {
+        Carriere.getAll().then((data) => {
             if(data){
                 res.send(data);
             }
@@ -67,7 +64,7 @@ module.exports = (talentRouter) => {
     });
 
     router.post('/get', function(req, res) {
-        Talent.getTalent(req.body.id_talent).then((data) => {
+        Carriere.getCarriere(req.body.id_carriere).then((data) => {
             if(data){
                 res.send(data);
             }
@@ -80,9 +77,9 @@ module.exports = (talentRouter) => {
             res.send(response);
             return false;
         }
-        Talent.createTalent(req.body).then((data) => {
+        Carriere.createCarriere(req.body).then((data) => {
             if(data){
-                setResponseOk('Création réussie', 'Talent ' + data.nom + ' créé !');
+                setResponseOk('Création réussie', 'Carriere ' + data.nom + ' créé !');
             }
             res.send(response);
         });
@@ -95,12 +92,12 @@ module.exports = (talentRouter) => {
             return false;
         }
 
-        let id_talent = req.body.id_talent;
-        delete req.body.id_talent;
+        let id_carriere = req.body.id_carriere;
+        delete req.body.id_carriere;
 
-        Talent.updateTalent(id_talent, req.body).then((data) => {
+        Carriere.updateCarriere(id_carriere, req.body).then((data) => {
             if(data){
-                setResponseOk('Mise à jour réussie', 'Talent mis à jour !');
+                setResponseOk('Mise à jour réussie', 'Carriere mis à jour !');
             }
             res.send(response);
         });
@@ -113,9 +110,9 @@ module.exports = (talentRouter) => {
             return false;
         }
 
-        Talent.deleteTalent(req.body.id_talent).then((data) => {
+        Carriere.deleteCarriere(req.body.id_carriere).then((data) => {
             if(data){
-                setResponseOk('Suppression réussie', 'Le talent a été supprimé !');
+                setResponseOk('Suppression réussie', 'Le Carriere a été supprimé !');
             }
             res.send(response);
         });

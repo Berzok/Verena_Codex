@@ -1,7 +1,8 @@
 $(function($){
 
-    var table_talent = null;
+    var table_carriere = null;
     var table_don_du_sang = null;
+    var table_talent = null;
     var currentForm = null;
 
     //clear_form();
@@ -83,6 +84,118 @@ $(function($){
 
 
     /**************************************************************************
+     ************************** ONGLET CARRIÈRES ******************************
+     **************************************************************************/
+
+    table_carriere = $('#table_carriere').DataTable({
+        "columnDefs": [
+            {
+                "targets": 1,
+                "width": "15%"
+            },
+            {
+                "targets": 2,
+                "width": "55%",
+            }
+        ],
+        "ajax": {
+            "url": '/action/carriere/loadAll',
+            "async": true,
+            "type": 'POST',
+            "dataSrc": ""
+        },
+        "processing": true,
+        "columns": [
+            {
+                "data": "id_carriere",
+                "name": "id_carriere",
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "data": "nom",
+                "name": "nom",
+                "className": 'fw-bold'
+            },
+            {
+                "data": "description",
+                "name": "description"
+            }
+        ],
+    }).on('click', 'tbody tr', function(){
+        let row = table_carriere.row(this);
+        $.each(table_carriere.rows().nodes(), function(k, v){
+            $(v).removeClass('row-selected');
+        });
+        $(row.node()).addClass('row-selected');
+        load_carriere(row.data().id_carriere);
+    });
+
+    function load_carriere(id_carriere){
+        $.ajax({
+            dataType: 'json',
+            type: 'post',
+            data: {'id_carriere': id_carriere},
+            url: '/action/carriere/get',
+            success: function(data){
+                clear_form();
+                $('#id_carriere').val(data.id_carriere);
+                $.each(data, function(k, v){
+                    $('#carriere_'+k).val(v);
+                });
+                $('#createCarriere').prop('disabled', true);
+                $('#updateCarriere, #deleteCarriere, #cancelCarriere').prop('disabled', false);
+                $('#carriere_details').prop('hidden', false);
+            }
+        });
+    }
+
+    $('#createCarriere').on('click', function(){
+        $.ajax({
+            dataType: 'json',
+            type: 'post',
+            data: getFormData('form_carriere'),
+            url: '/action/carriere/create',
+            success: function(data){
+                responseHandler(data);
+                table_carriere.ajax.reload(null, false);
+            }
+        })
+    });
+
+    $('#updateCarriere').on('click', function(){
+        $.ajax({
+            dataType: 'json',
+            type: 'post',
+            data: getFormData('form_carriere'),
+            url: '/action/carriere/update',
+            success: function(data){
+                responseHandler(data);
+                table_carriere.ajax.reload(null, false);
+            }
+        })
+    });
+
+    $('#deleteCarriere').on('click', function(){
+        $.ajax({
+            dataType: 'json',
+            type: 'post',
+            data: { id_carriere: $('#id_carriere').val() },
+            url: '/action/carriere/delete',
+            success: function(data){
+                responseHandler(data);
+            }
+        })
+    });
+
+    $('#cancelCarriere').on('click', function(){
+        clear_form();
+    });
+
+
+
+
+    /**************************************************************************
     ************************** ONGLET TALENTS *********************************
     **************************************************************************/
 
@@ -159,7 +272,7 @@ $(function($){
             dataType: 'json',
             type: 'post',
             data: {'id_talent': id_talent},
-            url: '/action/talent/getTalent',
+            url: '/action/talent/get',
             success: function(data){
                 clear_form();
                 $('#id_talent').val(data.id_talent);
@@ -191,7 +304,7 @@ $(function($){
             dataType: 'json',
             type: 'post',
             data: getFormData('form_talent'),
-            url: '/action/talent/createTalent',
+            url: '/action/talent/create',
             success: function(data){
                 responseHandler(data);
             }
@@ -203,7 +316,7 @@ $(function($){
             dataType: 'json',
             type: 'post',
             data: getFormData('form_talent'),
-            url: '/action/talent/updateTalent',
+            url: '/action/talent/update',
             success: function(data){
                 responseHandler(data);
             }
@@ -215,18 +328,18 @@ $(function($){
             dataType: 'json',
             type: 'post',
             data: { id_talent: $('#id_talent').val() },
-            url: '/action/talent/deleteTalent',
+            url: '/action/talent/delete',
             success: function(data){
                 responseHandler(data);
             }
         })
     });
 
-
-
     $('button[aria-label="cancel"]').on('click', function(){
         clear_form(undefined, clear_selected_row);
     });
+
+
 
     /**************************************************************************
     ************************ ONGLET DONS DU SANG ******************************

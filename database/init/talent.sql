@@ -1,9 +1,12 @@
 CREATE TABLE IF NOT EXISTS talent (
-    id_talent   INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    nom         TEXT,
-    description TEXT,
-    effet       TEXT,
-    deleted     INTEGER DEFAULT 0
+    id_talent          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id_competence_liee INTEGER DEFAULT NULL,
+    nom                TEXT,
+    description        TEXT,
+    effet              TEXT,
+    deleted            INTEGER DEFAULT 0,
+    FOREIGN KEY (id_competence_liee)
+        REFERENCES competence (id_competence)
 );
 
 CREATE TABLE IF NOT EXISTS talent_specialisation (

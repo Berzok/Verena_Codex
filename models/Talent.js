@@ -13,6 +13,15 @@ module.exports = function (sequelize, DataTypes) {
             primaryKey: true,
             unique: true,
         },
+        id_competence_liee: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: null,
+            references: {
+                model: 'competence',
+                key: 'id_competence'
+            }
+        },
         nom: {
             type: DataTypes.TEXT,
             allowNull: true,

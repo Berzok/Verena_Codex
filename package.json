@@ -4,7 +4,8 @@
   "description": "Yap",
   "main": "main.js",
   "scripts": {
-    "start": "node standalone.js"
+    "start": "node standalone.js",
+    "models": "node create_models.js"
   },
   "dependencies": {
     "@neutralinojs/neu": "^3.0.3",

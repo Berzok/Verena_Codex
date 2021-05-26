@@ -49,19 +49,20 @@
                                 <th>id_carriere</th>
                                 <th>Nom</th>
                                 <th>Description</th>
-                                <th>Effet</th>
                             </tr>
                             </thead>
                         </table>
 
                         <br />
 
-                        <div class="card text-white bg-transparent border-danger">
+                        <div id="carriere_details" class="card text-white bg-transparent border-danger">
                             <div class="card-header">
                                 <h1>Détails</h1>
                             </div>
+
                             <div class="card-body">
                                 <form id="form_carriere" class="card-text">
+                                    <input id="id_carriere" name="id_carriere" type="hidden">
 
                                     <label for="carriere_nom">Nom: </label>
                                     <input id="carriere_nom" class="form-control w-25" name="nom" type="text" value="">
@@ -70,9 +71,6 @@
                                     <label for="carriere_description">Description: </label>
                                     <textarea id="carriere_description" class="form-control w-50" name="description" contenteditable="true" aria-multiline="true"></textarea>
                                     <br />
-
-                                    <label for="carriere_effet">Effet: </label>
-                                    <textarea id="carriere_effet" class="form-control w-50" name="effet" contenteditable="true" aria-multiline="true"></textarea>
 
                                 </form>
 

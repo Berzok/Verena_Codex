@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 const sequelize = require('sequelize');
 const {models : initModels} = require('./../standalone');
-var talentRouter = require('./talent_router')(talentRouter);
+var carriereRouter = require('./carriere_router')(carriereRouter);
 var donDuSangRouter = require('./don_du_sang_router')(donDuSangRouter);
+var talentRouter = require('./talent_router')(talentRouter);
 
 
 models = initModels();
@@ -15,6 +16,7 @@ module.exports = () => {
 
     router.use('/don_du_sang', donDuSangRouter);
     router.use('/talent', talentRouter);
+    router.use('/carriere', carriereRouter);
 
     var session;
 

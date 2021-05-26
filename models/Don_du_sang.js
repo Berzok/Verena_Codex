@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 module.exports = function (sequelize, DataTypes) {
 
-    const Don_du_sang = sequelize.define('Talent', {
+    const Don_du_sang = sequelize.define('Don_du_sang', {
         id_don_du_sang: {
             type: DataTypes.INTEGER,
             allowNull: true,

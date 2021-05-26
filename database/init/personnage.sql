@@ -1,9 +1,11 @@
 CREATE TABLE IF NOT EXISTS personnage (
     id_personnage  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     id_utilisateur INTEGER,
+    id_carriere    INTEGER,
     deleted        INTEGER DEFAULT 0,
     FOREIGN KEY (id_utilisateur)
-        REFERENCES utilisateur (id_utilisateur)
+        REFERENCES utilisateur (id_utilisateur),
+    FOREIGN KEY (id_carriere) REFERENCES carriere (id_carriere)
 );
 
 CREATE TABLE IF NOT EXISTS personnage_profil (
@@ -28,8 +30,8 @@ CREATE TABLE IF NOT EXISTS personnage_profil (
         REFERENCES personnage (id_personnage)
 );
 
-CREATE TABLE IF NOT EXISTS personnage_info (
-    id_personnage_info INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE IF NOT EXISTS personnage_information (
+    id_personnage_information INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     id_personnage      INTEGER,
     nom                TEXT,
     prenom             TEXT,
@@ -51,8 +53,8 @@ CREATE TABLE IF NOT EXISTS personnage_info (
         REFERENCES personnage (id_personnage)
 );
 
-CREATE TABLE IF NOT EXISTS personnage_equipement(
-    id_personnage_equipement INTEGER not NULL PRIMARY KEY AUTOINCREMENT,
-    id_personnage INTEGER,
-    FOREIGN KEY (id_personnage) REFERENCES personnage(id_personnage)
+CREATE TABLE IF NOT EXISTS personnage_equipement (
+    id_personnage_equipement INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id_personnage            INTEGER,
+    FOREIGN KEY (id_personnage) REFERENCES personnage (id_personnage)
 );
