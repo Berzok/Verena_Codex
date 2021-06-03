@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser');
 const sequelize = require('sequelize');
 const {models : initModels} = require('./../standalone');
 var carriereRouter = require('./carriere_router')(carriereRouter);
@@ -11,8 +12,14 @@ models = initModels();
 
 module.exports = () => {
 
-    router.use(express.json());
-    router.use(express.urlencoded({ extended: true}));
+    //router.use(express.json());
+    //router.use(express.urlencoded({ extended: true}));
+    router.use(bodyParser.json());
+    router.use(bodyParser.urlencoded({
+        extended: true,
+        limit: '50mb',
+        parameterLimit: 10000000
+    }));
 
     router.use('/don_du_sang', donDuSangRouter);
     router.use('/talent', talentRouter);

@@ -77,7 +77,7 @@ module.exports = function (sequelize, DataTypes) {
     }
 
     /**
-     * Créé une nouvelle carrière
+     * Créé une nouvelle carrière et sauvegarde celle-ci en base
      * @param params
      * @returns {Promise<*|boolean>}
      */
@@ -126,6 +126,21 @@ module.exports = function (sequelize, DataTypes) {
             return false;
         }
     }
+
+    /**
+     * Récupère les talents d'une carrière à partir de son id
+     * @param id_carriere
+     * @returns {Promise<*|boolean>}
+     */
+    Carriere.getTalents = async function (id_carriere) {
+        try {
+            return await Carriere_talent.getTalentsbyCarriere(id_carriere);
+        } catch (error) {
+            console.error('[ERREUR]: ' + error);
+            return false;
+        }
+    }
+
 
     return Carriere;
 };

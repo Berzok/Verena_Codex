@@ -1,9 +1,13 @@
+Dropzone.autoDiscover = false;
+
 $(function($){
 
     var table_carriere = null;
+    var table_carriere_talents = null;
     var table_don_du_sang = null;
     var table_talent = null;
     var currentForm = null;
+    var dropzoneForm = null;
 
     //clear_form();
 
@@ -25,7 +29,6 @@ $(function($){
     }
 
     function clear_form(form_id = currentForm){
-        console.dir(form_id);
         let leFormulaire = document.getElementById(form_id);
         leFormulaire.reset();
         $('#' + form_id.replace('form_', '')).val('');
@@ -131,6 +134,53 @@ $(function($){
         load_carriere(row.data().id_carriere);
     });
 
+    dropzoneForm = $('#dropzone_div').dropzone({
+        url: '/action/carriere/upload_image',
+        method: 'post',
+        maxFiles: 1,
+        maxThumbnailFilesize: 15,
+        thumbnailHeight: null,
+        thumbnailWidth: null,
+        autoProcessQueue: false,
+        init: function() {
+            var submitButton = $('#updateCarriere');
+            var wrapperThis = this;
+
+            this.on('sending', function(file, xhr, formData){
+                console.dir(wrapperThis);
+                formData.append('id_carriere', $('#id_carriere').val());
+                for(let pair of formData.entries()) {
+                    console.log(pair[0]+ ', ' + pair[1]);
+                }
+            });
+
+            submitButton.on('click', function () {
+                wrapperThis.processQueue();
+            });
+
+
+            this.on("thumbnail", function(file, dataUrl) {
+                $('.dz-image').last().find('img').attr('id', 'dropzone_image')
+                    .addClass('img-fluid w-100 h-auto');
+                $('.dz-image').addClass('w-100 h-auto');
+                $('.dz-image').on('hover', function(event){
+                    this.height *= 1.1;
+                });
+                $('.dz-preview').addClass('m-1 bg-transparent')
+                    .on('click', function(event){
+                        $('#dropzone_div').trigger('click');
+                    });
+            });
+            this.on('addedfile', function(file){
+                if(this.files.length > 1){
+                    this.removeFile(this.files[0]);
+                }
+                $('.dz-progress').hide();
+                $('.dz-details').hide();
+            })
+        }
+    });
+
     function load_carriere(id_carriere){
         $.ajax({
             dataType: 'json',
@@ -139,10 +189,14 @@ $(function($){
             url: '/action/carriere/get',
             success: function(data){
                 clear_form();
+
                 $('#id_carriere').val(data.id_carriere);
                 $.each(data, function(k, v){
                     $('#carriere_'+k).val(v);
                 });
+
+                table_carriere_talents.ajax.reload(null, false);
+
                 $('#createCarriere').prop('disabled', true);
                 $('#updateCarriere, #deleteCarriere, #cancelCarriere').prop('disabled', false);
                 $('#carriere_details').prop('hidden', false);
@@ -165,9 +219,14 @@ $(function($){
 
     $('#updateCarriere').on('click', function(){
         $.ajax({
+            contentType: 'application/json',
             dataType: 'json',
             type: 'post',
-            data: getFormData('form_carriere'),
+            beforeSend(jqXHR, settings) {
+                let form_data = getFormData('form_carriere');
+                form_data.talents = table_carriere_talents.rows().data().toArray();
+                this.data = JSON.stringify(form_data);
+            },
             url: '/action/carriere/update',
             success: function(data){
                 responseHandler(data);
@@ -192,6 +251,171 @@ $(function($){
         clear_form();
     });
 
+
+    table_carriere_talents = $('#table_carriere_talents').DataTable({
+        "paging": false,
+        "info": false,
+        "columnDefs": [
+            {
+                "targets": 5,
+                "width": "30%"
+            },
+            {
+                "targets": 6,
+                "width": "30%",
+            },
+            {
+                "targets": 7,
+                "width": "30%"
+            }
+        ],
+        "ajax": {
+            "url": '/action/carriere/getTalents',
+            "async": true,
+            "type": 'POST',
+            "data": function(d){
+                d.id_carriere = $('#id_carriere').val();
+            },
+            "dataSrc": ""
+        },
+        "serverSide": true,
+        "deferLoading": 0,
+        "processing": true,
+        "order": [
+            [5, "asc"]
+        ],
+        "columns": [
+            {
+                "data": "id_carriere_talent",
+                "name": "id_carriere_talent",
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "data": "id_carriere",
+                "name": "id_carriere",
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "data": "id_talent",
+                "name": "id_talent",
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "data": "id_talent_specialisation",
+                "name": "id_talent_specialisation",
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "data": "id_talent_exclu",
+                "name": "id_talent_exclu",
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "data": "nom_talent",
+                "name": "nom_talent",
+                "className": 'fw-bold'
+            },
+            {
+                "data": "nom_specialisation",
+                "name": "nom_specialisation"
+            },
+            {
+                "data": "nom_talent_exclu",
+                "name": "nom_talent_exclu",
+                "render": function(data, type, row, meta){
+                    if(type === 'display' && data) {
+                        data = '<span class="text-danger">' + data + '</span>';
+                    }
+                    return data;
+                }
+            },
+            {
+                "data": null,
+                "name": "delete",
+                "className": 'text-center',
+                "searchable": false,
+                "orderable": false,
+                "defaultContent": '<button class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>'
+            }
+        ],
+    }).on('click', 'tbody tr', function(){
+        let row = table_carriere_talents.row(this);
+        $.each(table_carriere_talents.rows().nodes(), function(k, v){
+            $(v).removeClass('row-selected');
+        });
+        $(row.node()).addClass('row-selected');
+        //load_carriere(row.data().id_carriere);
+    });
+
+
+    /**************************************************************************
+     ************************** ONGLET GRAPHE *********************************
+     **************************************************************************/
+
+    window.onload = function() {
+        $.getScript("https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.18.2/cytoscape.umd.js", () => {
+            var cy = cytoscape({
+                container: $('#cy_network'),
+                elements: {
+                    nodes: [
+                        {
+                            data: {
+                                id: 'a'
+                            }
+                        },
+                        {
+                            data: {
+                                id: 'b'
+                            }
+                        }
+                    ],
+                    edges: [
+                        {
+                            data: {
+                                id: 'ab',
+                                source: 'a',
+                                target: 'b'
+                            }
+                        }
+                    ]
+                },
+                layout: {
+                    name: 'grid',
+                    rows: 1
+                },
+                style: [ // the stylesheet for the graph
+                    {
+                        selector: 'node',
+                        style: {
+                            'background-color': '#666',
+                            'label': 'data(id)'
+                        }
+                    },
+                    {
+                        selector: 'edge',
+                        style: {
+                            'width': 3,
+                            'line-color': '#ccc',
+                            'target-arrow-color': '#ccc',
+                            'target-arrow-shape': 'triangle',
+                            'curve-style': 'bezier'
+                        }
+                    }
+                ],
+            });
+
+            cy.ready(() => {
+                cy.center();
+                //cy.fit();
+                cy.resize();
+            });
+        });
+    };
 
 
 

@@ -7,14 +7,17 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/intl.js"></script>
-
+    <script src="node_modules/dropzone/dist/min/dropzone-amd-module.min.js"></script>
 
     <script src="js/utils.js"></script>
     <script src="js/utils-dt.js"></script>
     <script src="js/encyclopedia.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="node_modules/dropzone/dist/dropzone.css">
+    <link rel="stylesheet" href="style/dropzone_override.css">
     <link rel="stylesheet" href="style/encyclopedia.css">
+    <script defer src=""></script>
 </head>
 
 <body>
@@ -33,7 +36,8 @@
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button id="nav-carrieres-tab" class="nav-link active" data-bs-toggle="tab" data-bs-target="#nav-carrieres" type="button" role="tab" aria-controls="nav-carrieres" aria-selected="true">Carrières</button>
-                        <button id="nav-skills-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-skills" type="button" role="tab" aria-controls="nav-skills" aria-selected="true">Compétences</button>
+                        <button id="nav-carrieres-graph-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-carrieres-graph" type="button" role="tab" aria-controls="nav-carrieres-graph" aria-selected="false">Graphe</button>
+                        <button id="nav-skills-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-skills" type="button" role="tab" aria-controls="nav-skills" aria-selected="false">Compétences</button>
                         <button id="nav-talents-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-talents" type="button" role="tab" aria-controls="nav-talents" aria-selected="false">Talents</button>
                         <button id="nav-creatures-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-creatures" type="button" role="tab" aria-controls="nav-creatures" aria-selected="false">Créatures</button>
                         <button id="nav-dons-du-sang-tab" class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-dons-du-sang" type="button" role="tab" aria-controls="nav-dons-du-sang" aria-selected="false">Dons du sang</button>
@@ -55,24 +59,101 @@
 
                         <br />
 
-                        <div id="carriere_details" class="card text-white bg-transparent border-danger">
+                        <div id="carriere_details" class="card text-white bg-transparent border-danger" hidden>
                             <div class="card-header">
                                 <h1>Détails</h1>
                             </div>
 
                             <div class="card-body">
-                                <form id="form_carriere" class="card-text">
+                                <form id="form_carriere" class="card-text mb-5">
                                     <input id="id_carriere" name="id_carriere" type="hidden">
 
-                                    <label for="carriere_nom">Nom: </label>
-                                    <input id="carriere_nom" class="form-control w-25" name="nom" type="text" value="">
-                                    <br />
+                                    <div class="row gx-5 gy-2 mb-3">
+                                        <div class="col-4">
 
-                                    <label for="carriere_description">Description: </label>
-                                    <textarea id="carriere_description" class="form-control w-50" name="description" contenteditable="true" aria-multiline="true"></textarea>
-                                    <br />
+                                            <div class="mb-3">
+                                                <label for="carriere_nom">Nom: </label>
+                                                <input id="carriere_nom" class="form-control w-25" name="nom" type="text" value="">
+                                            </div>
 
+                                            <hr />
+
+                                            <div class="form-check">
+                                                <input id="carriere_type_basique" class="form-check-input" name="basique" type="radio" value="1">
+                                                <label for="carriere_type_basique" class="form-check-label">Basique</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input id="carriere_type_avancee" class="form-check-input" name="basique" type="radio" value="0">
+                                                <label for="carriere_type_avancee" class="form-check-label">Avancée</label>
+                                            </div>
+
+                                            <hr />
+
+
+                                            <div class="mb-3">
+                                                <label for="carriere_description">Description: </label>
+                                                <textarea id="carriere_description" class="form-control" name="description" contenteditable="true" aria-multiline="true"></textarea>
+                                            </div>
+                                            <br />
+                                        </div>
+
+                                        <div class="col text-center">
+
+                                            <div id="dropzone_div" class="dropzone bg-transparent p-0 d-block">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-4">
+
+                                            <p class="text-center">TODO: Plan de carrière</p>
+
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row gx-5 gy-2">
+
+                                        <div class="col">
+                                            <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#carriereCompetences_collapse">
+                                                Compétences
+                                            </button>
+
+                                            <div class="multi-collapse collapse show" id="carriereCompetences_collapse">
+                                                Some placeholder content for the first collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#carriereTalents_collapse">
+                                                Talents
+                                            </button>
+
+                                            <div class="multi-collapse collapse show" id="carriereTalents_collapse">
+                                                <table id="table_carriere_talents" class="table bg-wood table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>id_carriere_talent</th>
+                                                        <th>id_carriere</th>
+                                                        <th>id_talent</th>
+                                                        <th>id_talent_specialisation</th>
+                                                        <th>id_talent_exclu</th>
+                                                        <th>Talent</th>
+                                                        <th>Spécialisation</th>
+                                                        <th>Talent exclu</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
+
+                                <hr>
 
                                 <button id="createCarriere" class="btn btn-success btn-outline-light mt-4" type="submit">
                                     <span class="fas fa-plus"></span> Créer
@@ -89,6 +170,14 @@
 
                             </div>
                         </div>
+                    </div>
+
+                    <div id="nav-carrieres-graph" class="tab-pane fade p-2 border-double border-gold" role="tabpanel" aria-labelledby="carrieres-graph-tab">
+
+                        <div id="cy_network" class="d-block" style="height: 600px; border: 2px solid black">
+
+                        </div>
+
                     </div>
 
                     <div id="nav-skills" class="tab-pane fade p-2" role="tabpanel" aria-labelledby="skills-tab">
@@ -120,7 +209,6 @@
                                     <div class="row gx-5 gy-2">
 
                                         <div class="col">
-
                                             <label for="talent_nom">Nom: </label>
                                             <input id="talent_nom" class="form-control" name="nom" type="text" value="">
                                             <br />
@@ -133,9 +221,7 @@
                                             <textarea id="talent_effet" class="form-control" name="effet" contenteditable="true" aria-multiline="true" rows="2"></textarea>
                                         </div>
 
-
                                         <div class="col">
-
                                             <ul id="talent_specialisations" class="list-group">
                                             </ul>
 
@@ -143,7 +229,6 @@
 
                                             <label>Accessible dans les carrières suivantes:</label>
                                             <h2><em>W.I.D</em></h2>
-
                                         </div>
 
                                     </div>

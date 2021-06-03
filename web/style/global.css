@@ -1,4 +1,10 @@
 
+html{
+    scrollbar-width: thin;
+    scrollbar-gutter: force;
+    scrollbar-color: firebrick gray;
+}
+
 body{
     min-height: 100vh;
     background: linear-gradient(to right, #80405d, #63426D, #4a4f80, #535276, #406580);

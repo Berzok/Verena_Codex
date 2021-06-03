@@ -27,6 +27,8 @@ module.exports = () => {
     });
 
 
+    router.use('/node_modules', express.static('node_modules'));
+
     router.get('/js/:folder?/:filename', function(req, res) {
         res.sendFile(req.params.filename, {
             root: './web/js' + (req.params.folder ? '/' + req.params.folder : ''),

@@ -128,18 +128,7 @@ function initModels(sequelize) {
         as: "id_carriere_carriere",
         foreignKey: "id_carriere"
     });
-    Carriere_talent.belongsTo(Talent, {
-        as: "id_talent_talent",
-        foreignKey: "id_talent"
-    });
-    Carriere_talent.belongsTo(Talent_specialisation, {
-        as: "id_talent_specialisation_talent_specialisation",
-        foreignKey: "id_talent_specialisation"
-    });
-    Carriere_talent.belongsTo(Talent, {
-        as: "id_talent_exclu_talent",
-        foreignKey: "id_talent_exclu"
-    });
+
 
     Competence.hasMany(Carriere_competence, {
         as: "carriere_competences",
@@ -183,14 +172,6 @@ function initModels(sequelize) {
     });
 
 
-    Talent.hasMany(Carriere_talent, {
-        as: "id_talent_carriere_talents",
-        foreignKey: "id_talent"
-    });
-    Talent.hasMany(Carriere_talent, {
-        as: "carriere_talents",
-        foreignKey: "id_talent_exclu"
-    });
     Talent.hasMany(Talent_bonus, {
         as: "talent_bonus",
         foreignKey: "id_talent"
@@ -208,10 +189,6 @@ function initModels(sequelize) {
     Talent_specialisation.belongsTo(Talent, {
         as: "id_talent_talent",
         foreignKey: "id_talent"
-    });
-    Talent_specialisation.hasMany(Carriere_talent, {
-        as: "carriere_talents",
-        foreignKey: "id_talent_specialisation"
     });
 
     Role.hasMany(Utilisateur, {

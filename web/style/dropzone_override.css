@@ -1,0 +1,8 @@
+
+.dropzone .dz-preview .dz-image img{
+    cursor: pointer;
+}
+
+.dropzone .dz-preview:hover .dz-image img{
+    filter: blur(4px);
+}

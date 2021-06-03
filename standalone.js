@@ -2,6 +2,7 @@
 const express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
+const upload  = require('express-fileupload');
 const path = require('path');
 const sqrl = require('squirrelly');
 const Sequelize = require("sequelize");
@@ -15,6 +16,7 @@ const app = express();
 
 app.set('version', '0.1.0');
 
+app.use(upload());
 
 app.use(session({
     store: new FileStore(fileStoreOptions),
@@ -66,6 +68,7 @@ app.engine('html', sqrl.renderFile);
 app.use('/img', express.static('web/img'));
 app.use('/js', express.static('web/js'));
 app.use('/style', express.static('web/style'));
+app.use('/node_modules', express.static('node_modules'));
 
 
 app.use(function(req, res, next) {

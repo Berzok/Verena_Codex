@@ -5,9 +5,11 @@ const {models : initModels} = require('./../standalone');
 
 models = initModels();
 const Carriere = models.Carriere;
+const CarriereTalent = models.Carriere_talent;
 const Utilisateur = models.Utilisateur;
 
 module.exports = (carriereRouter) => {
+
 
     var response = {
         status: 'nok',
@@ -71,6 +73,14 @@ module.exports = (carriereRouter) => {
         });
     });
 
+    router.post('/getTalents', function(req, res) {
+        Carriere.getTalents(req.body.id_carriere).then((data) => {
+            if(data){
+                res.send(data);
+            }
+        });
+    });
+
     router.post('/create', function(req, res) {
         if(!checkDroit(req.session.user, 'create')){
             response.message = 'Permission non accordée.';
@@ -97,11 +107,24 @@ module.exports = (carriereRouter) => {
 
         Carriere.updateCarriere(id_carriere, req.body).then((data) => {
             if(data){
-                setResponseOk('Mise à jour réussie', 'Carriere mis à jour !');
+                setResponseOk('Mise à jour réussie', 'Carrière mise à jour !');
             }
             res.send(response);
         });
     });
+
+    router.post('/upload_image', function(req, res){
+        if(!checkDroit(req.session.user, 'update') && !checkDroit(req.session.user, 'create')){
+            response.message = 'Permission non accordée.';
+            res.send(response);
+            return false;
+        }
+
+        console.dir(req.files);
+        console.dir(req.body);
+        res.send(response);
+        return false;
+    })
 
     router.post('/delete', function(req, res) {
         if(!checkDroit(req.session.user, 'delete')){
