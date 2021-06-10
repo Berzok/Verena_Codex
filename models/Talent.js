@@ -115,11 +115,38 @@ module.exports = function (sequelize, DataTypes) {
         }
     }
 
-    Talent.getAll = async function () {
+
+    /**
+     *
+     * @param {boolean|null} [specialisation=false]
+     * @returns {Promise<*|boolean>}
+     */
+    Talent.getAll = async function (specialisation = false) {
         try {
-            return await Talent.findAll({
-                raw: true,
-            });
+            if(specialisation){
+                return await Talent.findAll({
+                    attributes: [
+                        'id_talent',
+                        'nom'
+                    ],
+                    include: {
+                        attributes: ['id_talent_specialisation', 'nom'],
+                        model: Talent_specialisation,
+                        as: 'talent_specialisations',
+                        required: false,
+                        where: {
+                            id_talent: {[Op.col]: 'Talent.id_talent'}
+                        }
+                    }
+                })
+            } else {
+                return await Talent.findAll({
+                    raw: true,
+                    order: [
+                        ['nom', 'ASC']
+                    ]
+                });
+            }
         } catch (error) {
             console.error('[ERREUR]: ' + error);
             return false;

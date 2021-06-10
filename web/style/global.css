@@ -14,11 +14,14 @@ a{
     color: royalblue;
 }
 
-.bg-wood{
-    background-color: #855E42;
+.bg-teal{
+    background-color: #668e66;
 }
 .bg-palegoldenrod{
     background-color: palegoldenrod !important;
+}
+.bg-wood{
+    background-color: #855E42;
 }
 
 .border-double{
@@ -29,6 +32,9 @@ a{
     border-color: burlywood
 }
 
+#toast_message{
+    z-index: 999;
+}
 
 #page_content h1{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -38,4 +44,12 @@ a{
 #page_content > div {
     font-size: 16px;
     font-weight: normal;
+}
+
+.bootbox-close-button {
+
+}
+
+.h-0{
+    height: 0 !important;
 }

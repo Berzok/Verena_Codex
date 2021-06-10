@@ -71,6 +71,17 @@ module.exports = () => {
         });
     });
 
+    router.get('/modals/:filename.:ext?', function(req, res){
+        res.sendFile(req.params.filename + '.' + (req.params.ext ? req.params.ext : 'html'), {
+            root: './web/modals/' + req.params.filename,
+            dotfiles: 'deny',
+            headers: {
+                'x-timestamp': Date.now(),
+                'x-sent': true
+            }
+        });
+    });
+
     router.get('/', function(req, res, next) {
         req.params.filename = 'index';
 

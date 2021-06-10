@@ -59,8 +59,11 @@ module.exports = (talentRouter) => {
 
 
     router.post('/loadAll', function(req, res) {
-        Talent.getAll().then((data) => {
+        Talent.getAll(req.body.specialisation).then((data) => {
             if(data){
+                data.sort(function(a, b){
+                    return a.nom.localeCompare(b.nom);
+                });
                 res.send(data);
             }
         });

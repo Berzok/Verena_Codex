@@ -1,0 +1,38 @@
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content bg-teal border-gold">
+        <div class="modal-header">
+            <h3 class="modal-title">Ajouter Talent(s) </h3>
+            <button class="btn btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+            <form id="form_add_carriere_talent" role="form" class="form">
+
+                <table id="table_add_carriere_talent" class="table bg-wood table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>id_talent</th>
+                        <th>Nom</th>
+                        <th>Specialisation (?)</th>
+                    </tr>
+                    </thead>
+                </table>
+
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button id="save_add_carriere_talent" type="button" class="btn btn-sm btn-success btn-outline-light disabled">
+                <span class="fas fa-check"></span> Confirmer
+            </button>
+            <button id="cancel_add_carriere_talent" type="button" class="btn btn-sm btn-warning btn-outline-dark">
+                <span class="fas fa-times"></span> Annuler
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="modals/addCarriereTalent.js">
+</script>

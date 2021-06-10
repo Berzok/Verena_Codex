@@ -9,8 +9,6 @@ $(function($){
     var currentForm = null;
     var dropzoneForm = null;
 
-    //clear_form();
-
     $('button[aria-label="create"]').each((k, v) => {
         $(v).prop('disabled', session.can_create === null);
     });
@@ -26,31 +24,6 @@ $(function($){
         $.each(table.rows().nodes(), function (k, v) {
             $(v).removeClass('row-selected');
         });
-    }
-
-    function clear_form(form_id = currentForm){
-        let leFormulaire = document.getElementById(form_id);
-        leFormulaire.reset();
-        $('#' + form_id.replace('form_', '')).val('');
-        $(leFormulaire).parent().next().find('button').each(function(k, v){
-            switch($(v).attr('aria-label')){
-                case 'create':
-                    $(v).prop('disabled', session.can_create === null);
-                    break;
-
-                case 'update':
-                    $(v).prop('disabled', session.can_update === null);
-                    break;
-
-                case 'delete':
-                    $(v).prop('disabled', session.can_delete === null);
-                    break;
-
-                default:
-                    $(v).prop('disabled', true);
-                    break;
-            }
-        })
     }
 
     function getFormData(formulaire){
@@ -84,7 +57,52 @@ $(function($){
         $(selector).tab('show');
     }
 
+    function clear_form(form_id = currentForm){
+        if(!form_id){
+            return;
+        }
+        let leFormulaire = document.getElementById(form_id);
+        leFormulaire.reset();
 
+        let nom_form = form_id.replace('form_', '');
+
+        $('#id_' + nom_form).val('');
+        $('#' + nom_form).val('');
+        $(leFormulaire).parent().next().find('button').each(function(k, v){
+            switch($(v).attr('aria-label')){
+                case 'create':
+                    $(v).prop('disabled', session.can_create === null);
+                    break;
+
+                case 'update':
+                    $(v).prop('disabled', session.can_update === null);
+                    break;
+
+                case 'delete':
+                    $(v).prop('disabled', session.can_delete === null);
+                    break;
+
+                default:
+                    $(v).prop('disabled', true);
+                    break;
+            }
+        });
+
+        $('#dropzone_div').find('.dz-image-preview').remove();
+
+        $('html, body').animate({
+            scrollTop: 0
+        }, 'slow');
+    }
+
+    $.ajax({
+        url: 'modals/addCarriereTalent',
+        success: function(data){
+            $('#modal_addCarriereTalent').html(data);
+        }
+    });
+
+    clear_form();
 
     /**************************************************************************
      ************************** ONGLET CARRIÈRES ******************************
@@ -134,30 +152,25 @@ $(function($){
         load_carriere(row.data().id_carriere);
     });
 
-    dropzoneForm = $('#dropzone_div').dropzone({
-        url: '/action/carriere/upload_image',
-        method: 'post',
+    dropzoneForm = new Dropzone($('#dropzone_div').get(0),{
+        acceptedFiles: 'image/*',
+        autoProcessQueue: false,
         maxFiles: 1,
         maxThumbnailFilesize: 15,
+        method: 'post',
+        renameFile: function(file){
+            return $('#carriere_nom').val();
+        },
         thumbnailHeight: null,
         thumbnailWidth: null,
-        autoProcessQueue: false,
+        url: '/action/carriere/upload_image',
         init: function() {
-            var submitButton = $('#updateCarriere');
-            var wrapperThis = this;
+            var dz = this;
 
             this.on('sending', function(file, xhr, formData){
-                console.dir(wrapperThis);
+                formData.append('file_extension', file.type.split('/')[1]);
                 formData.append('id_carriere', $('#id_carriere').val());
-                for(let pair of formData.entries()) {
-                    console.log(pair[0]+ ', ' + pair[1]);
-                }
             });
-
-            submitButton.on('click', function () {
-                wrapperThis.processQueue();
-            });
-
 
             this.on("thumbnail", function(file, dataUrl) {
                 $('.dz-image').last().find('img').attr('id', 'dropzone_image')
@@ -177,6 +190,9 @@ $(function($){
                 }
                 $('.dz-progress').hide();
                 $('.dz-details').hide();
+            });
+            this.on('complete', function(){
+                dz.removeAllFiles(true);
             })
         }
     });
@@ -190,67 +206,37 @@ $(function($){
             success: function(data){
                 clear_form();
 
+                $('#dropzone_div').find('.dz-image-preview').remove();
+
                 $('#id_carriere').val(data.id_carriere);
                 $.each(data, function(k, v){
                     $('#carriere_'+k).val(v);
                 });
 
+                //Check the corresponding radio button (basique ou avancée)
+                $('input[name=basique][value=' + data.basique + ']').prop('checked', true);
+
+                // If you only have access to the original image sizes on your server,
+                // and want to resize them in the browser:
+                if(data.image) {
+                    let mockFile = {
+                        dataURL: data.image,
+                        imageUrl: data.image,
+                        name: "Filename 2",
+                        size: 12345,
+                        type: 'img'
+                    };
+                    dropzoneForm.displayExistingFile(mockFile, data.image);
+                    dropzoneForm.files.push(mockFile);
+                }
+
                 table_carriere_talents.ajax.reload(null, false);
 
                 $('#createCarriere').prop('disabled', true);
                 $('#updateCarriere, #deleteCarriere, #cancelCarriere').prop('disabled', false);
-                $('#carriere_details').prop('hidden', false);
             }
         });
     }
-
-    $('#createCarriere').on('click', function(){
-        $.ajax({
-            dataType: 'json',
-            type: 'post',
-            data: getFormData('form_carriere'),
-            url: '/action/carriere/create',
-            success: function(data){
-                responseHandler(data);
-                table_carriere.ajax.reload(null, false);
-            }
-        })
-    });
-
-    $('#updateCarriere').on('click', function(){
-        $.ajax({
-            contentType: 'application/json',
-            dataType: 'json',
-            type: 'post',
-            beforeSend(jqXHR, settings) {
-                let form_data = getFormData('form_carriere');
-                form_data.talents = table_carriere_talents.rows().data().toArray();
-                this.data = JSON.stringify(form_data);
-            },
-            url: '/action/carriere/update',
-            success: function(data){
-                responseHandler(data);
-                table_carriere.ajax.reload(null, false);
-            }
-        })
-    });
-
-    $('#deleteCarriere').on('click', function(){
-        $.ajax({
-            dataType: 'json',
-            type: 'post',
-            data: { id_carriere: $('#id_carriere').val() },
-            url: '/action/carriere/delete',
-            success: function(data){
-                responseHandler(data);
-            }
-        })
-    });
-
-    $('#cancelCarriere').on('click', function(){
-        clear_form();
-    });
-
 
     table_carriere_talents = $('#table_carriere_talents').DataTable({
         "paging": false,
@@ -278,7 +264,6 @@ $(function($){
             },
             "dataSrc": ""
         },
-        "serverSide": true,
         "deferLoading": 0,
         "processing": true,
         "order": [
@@ -340,16 +325,85 @@ $(function($){
                 "className": 'text-center',
                 "searchable": false,
                 "orderable": false,
-                "defaultContent": '<button class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>'
+                "defaultContent": '<button class="btn btn-outline-danger" type="button"><i class="fas fa-trash-alt"></i></button>'
             }
         ],
-    }).on('click', 'tbody tr', function(){
-        let row = table_carriere_talents.row(this);
-        $.each(table_carriere_talents.rows().nodes(), function(k, v){
-            $(v).removeClass('row-selected');
-        });
-        $(row.node()).addClass('row-selected');
-        //load_carriere(row.data().id_carriere);
+    }).on('click', 'tbody td button', function(){
+        let row = table_carriere_talents.row(this.parentNode);
+
+        bootboxConfirm(
+            'info',
+            'Suppression',
+            'Retirer ce talent de cette carrière ?',
+            () => {
+                console.dir('Callback positif');
+                row.remove();
+                table_carriere_talents.draw();
+            },
+            () => {
+                console.dir('Callback négatif');
+            }
+        );
+
+        return false;
+    });
+
+    $('#addCarriereTalent').on('click', function(event){
+
+        event.preventDefault();
+
+        $('#modal_addCarriereTalent').modal('show');
+    });
+
+
+    $('#createCarriere').on('click', function(){
+        $.ajax({
+            dataType: 'json',
+            type: 'post',
+            data: getFormData('form_carriere'),
+            url: '/action/carriere/create',
+            success: function(data){
+                dropzoneForm.processQueue();
+                responseHandler(data);
+                table_carriere.ajax.reload(null, false);
+            }
+        })
+    });
+
+    $('#updateCarriere').on('click', function(){
+        $.ajax({
+            contentType: 'application/json',
+            dataType: 'json',
+            type: 'post',
+            beforeSend(jqXHR, settings) {
+                let form_data = getFormData('form_carriere');
+                form_data.talents = table_carriere_talents.rows().data().toArray();
+                this.data = JSON.stringify(form_data);
+            },
+            url: '/action/carriere/update',
+            success: function(data){
+                dropzoneForm.processQueue();
+                responseHandler(data);
+                table_carriere.ajax.reload(null, false);
+            }
+        })
+    });
+
+    $('#deleteCarriere').on('click', function(){
+        $.ajax({
+            dataType: 'json',
+            type: 'post',
+            data: { id_carriere: $('#id_carriere').val() },
+            url: '/action/carriere/delete',
+            success: function(data){
+                responseHandler(data);
+            }
+        })
+    });
+
+    $('#cancelCarriere').on('click', function(){
+        clear_form();
+        table_carriere_talents.clear().draw();
     });
 
 
@@ -498,7 +552,6 @@ $(function($){
             data: {'id_talent': id_talent},
             url: '/action/talent/get',
             success: function(data){
-                clear_form();
                 $('#id_talent').val(data.id_talent);
                 $.each(data, function(k, v){
                     $('#talent_'+k).val(v);

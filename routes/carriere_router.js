@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router({mergeParams: true});
 const sequelize = require('sequelize');
 const {models : initModels} = require('./../standalone');
+var path = require('path');
 
 models = initModels();
 const Carriere = models.Carriere;
@@ -74,6 +75,10 @@ module.exports = (carriereRouter) => {
     });
 
     router.post('/getTalents', function(req, res) {
+        if(!req.body.id_carriere || req.body.id_carriere == ''){
+            res.send({});
+            return false;
+        }
         Carriere.getTalents(req.body.id_carriere).then((data) => {
             if(data){
                 res.send(data);
@@ -120,10 +125,28 @@ module.exports = (carriereRouter) => {
             return false;
         }
 
-        console.dir(req.files);
-        console.dir(req.body);
-        res.send(response);
-        return false;
+        let sampleFile;
+        let uploadPath;
+
+        // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+        sampleFile = req.files.file;
+        uploadPath = __dirname + '/../web/img/' + sampleFile.name + '.' + req.body.file_extension;
+
+        // Use the mv() method to place the file somewhere on your server
+        sampleFile.mv(uploadPath, function(err) {
+            if(err) {
+                console.dir('error');
+                return;
+            }
+            Carriere.findByPk(req.body.id_carriere).then((carriere) => {
+                carriere.image = 'img/' + sampleFile.name + '.' + req.body.file_extension;
+                carriere.save().then(() => {
+                    setResponseOk('Mise en ligne réussie', 'Image uploadée');
+                    res.send(response);
+                    return false;
+                })
+            });
+        });
     })
 
     router.post('/delete', function(req, res) {

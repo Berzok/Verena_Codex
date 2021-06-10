@@ -21,7 +21,7 @@ $(function() {
             bootbox.dialog({
                 title: "Connexion",
                 message: loginForm,
-                closeButton: false,
+                closeButton: true,
                 buttons: {
                     confirm: {
                         label: "<span class='fas fa-sign-in-alt'></span> Connexion",

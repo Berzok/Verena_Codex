@@ -14,7 +14,7 @@ var fileStoreOptions = {};
 // Create Express app
 const app = express();
 
-app.set('version', '0.1.0');
+app.set('version', '0.1.5');
 
 app.use(upload());
 

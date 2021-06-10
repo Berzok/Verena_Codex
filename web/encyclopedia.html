@@ -4,9 +4,11 @@
     <title>Veritas Project</title>
     {{it.head | safe}}
 
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/intl.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.3/js/select.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.25/sorting/intl.js"></script>
     <script src="node_modules/dropzone/dist/min/dropzone-amd-module.min.js"></script>
 
     <script src="js/utils.js"></script>
@@ -14,6 +16,8 @@
     <script src="js/encyclopedia.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.bootstrap5.min.css"/>
     <link rel="stylesheet" href="node_modules/dropzone/dist/dropzone.css">
     <link rel="stylesheet" href="style/dropzone_override.css">
     <link rel="stylesheet" href="style/encyclopedia.css">
@@ -59,7 +63,7 @@
 
                         <br />
 
-                        <div id="carriere_details" class="card text-white bg-transparent border-danger" hidden>
+                        <div id="carriere_details" class="card text-white bg-transparent border-danger">
                             <div class="card-header">
                                 <h1>Détails</h1>
                             </div>
@@ -92,7 +96,7 @@
 
                                             <div class="mb-3">
                                                 <label for="carriere_description">Description: </label>
-                                                <textarea id="carriere_description" class="form-control" name="description" contenteditable="true" aria-multiline="true"></textarea>
+                                                <textarea id="carriere_description" class="form-control" name="description" rows="8" contenteditable="true" aria-multiline="true"></textarea>
                                             </div>
                                             <br />
                                         </div>
@@ -116,7 +120,7 @@
 
                                     <div class="row gx-5 gy-2">
 
-                                        <div class="col">
+                                        <div class="col border-end border-gold">
                                             <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#carriereCompetences_collapse">
                                                 Compétences
                                             </button>
@@ -132,7 +136,7 @@
                                                 Talents
                                             </button>
 
-                                            <div class="multi-collapse collapse show" id="carriereTalents_collapse">
+                                            <div id="carriereTalents_collapse" class="multi-collapse collapse show">
                                                 <table id="table_carriere_talents" class="table bg-wood table-bordered">
                                                     <thead>
                                                     <tr>
@@ -148,6 +152,11 @@
                                                     </tr>
                                                     </thead>
                                                 </table>
+
+                                                <a id="addCarriereTalent" class="btn btn-success mt-2" type="button">
+                                                    <span class="fas fa-plus"></span> Ajouter un talent
+                                                </a>
+
                                             </div>
                                         </div>
                                     </div>
@@ -328,5 +337,8 @@
     </div>
 
 </div>
+
+<div id="modal_addCarriereTalent" class="modal fade"></div>
+
 </body>
 </html>

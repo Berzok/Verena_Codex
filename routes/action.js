@@ -3,6 +3,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 const sequelize = require('sequelize');
 const {models : initModels} = require('./../standalone');
+
 var carriereRouter = require('./carriere_router')(carriereRouter);
 var donDuSangRouter = require('./don_du_sang_router')(donDuSangRouter);
 var talentRouter = require('./talent_router')(talentRouter);
